@@ -18,3 +18,9 @@ presentation.pdf
 
 # Old build outputs
 outputs/
+
+# PDFs auto-generated from .eps figures at each compilation
+*-eps-converted-to.pdf
+# ...except these two, which have no .eps source
+!FIGURES/LAGRANGIAN/seedingPlane-eps-converted-to.pdf
+!FIGURES/LAGRANGIAN/Trackingface2face-eps-converted-to.pdf

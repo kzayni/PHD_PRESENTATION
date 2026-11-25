@@ -1,0 +1,15 @@
+% Section transition: 06_CONCLUSIONS_AND_PERSPECTIVES
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+\shade[left color=white,right color=iceBlue!25]
+  (current page.south west) rectangle (current page.north east);
+\node[text=champsBlue!70!black,align=center,
+  font=\fontsize{26}{32}\selectfont\bfseries]
+  (t) at (current page.center) {Conclusions\\ \& \\ Perspectives};
+\shade[left color=champsBlue!0,right color=champsBlue]
+  ([xshift=-3cm,yshift=-0.45cm]t.south) rectangle ([xshift=-1cm,yshift=-0.5cm]t.south);
+\fill[champsBlue] ([xshift=-1cm,yshift=-0.43cm]t.south) rectangle ([xshift=1cm,yshift=-0.52cm]t.south);
+\shade[left color=champsBlue,right color=champsBlue!0]
+  ([xshift=1cm,yshift=-0.45cm]t.south) rectangle ([xshift=3cm,yshift=-0.5cm]t.south);
+\end{tikzpicture}
+\end{frame}

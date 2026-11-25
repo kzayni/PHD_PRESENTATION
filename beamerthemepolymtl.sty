@@ -1,0 +1,169 @@
+\ProvidesPackage{beamerthemepolymtl}[2011/04/20]
+\RequirePackage{tikz}
+\RequirePackage{calc}
+
+\RequirePackage[scriptsize,it]{caption}
+\captionsetup{labelformat=empty,labelsep=none}
+
+\mode<presentation>
+
+%%% variables and options
+\def\beamer@polymtl@value@true{true}
+\def\beamer@polymtl@value@false{false}
+\def\beamer@polymtl@value@empty{}
+
+\def\beamer@polymtl@url{}
+\def\beamer@polymtl@numbering{}
+\def\beamer@polymtl@titlepagelayout{}
+
+\newlength{\beamer@polymtl@menuwidth}
+\newlength{\beamer@polymtl@restofmenuwidth}
+
+\setlength{\beamer@polymtl@menuwidth}{.7\paperwidth}
+
+\DeclareOptionBeamer{url}[{www.polymtl.ca}]{\def\beamer@polymtl@url{#1}}
+\DeclareOptionBeamer{numbering}[true]{\def\beamer@polymtl@numbering{#1}}
+\DeclareOptionBeamer{titlepagelayout}[]{\def\beamer@polymtl@titlepagelayout{#1}}
+\DeclareOptionBeamer{menuwidth}[]{\setlength{\beamer@polymtl@menuwidth}{#1}}
+
+\ProcessOptionsBeamer
+
+\setlength{\beamer@polymtl@restofmenuwidth}{0.95\paperwidth}
+\addtolength\beamer@polymtl@restofmenuwidth{-\beamer@polymtl@menuwidth}
+
+\useinnertheme{circles}
+\useoutertheme{miniframes}
+
+\usecolortheme{polymtl}
+
+\setbeamertemplate{navigation symbols}{}
+
+% TITLE PAGE
+\defbeamertemplate*{title page}{titlepage}
+{
+  \thispagestyle{empty}
+
+  \begin{tikzpicture}[remember picture,overlay]
+
+      % Full-page background image
+      \node[anchor=center,inner sep=0pt] at (current page.center) {%
+          \includegraphics[
+              width=\paperwidth,
+              height=\paperheight
+          ]{img_theme/lassonde.png}%
+      };
+
+      % Polytechnique logo -- bottom right
+      \node[
+          anchor=south east,
+          inner sep=0pt
+      ] at ([xshift=-0.5cm,yshift=0.5cm]current page.south east) {%
+          \includegraphics[height=1.20cm]
+          {img_theme/Logo_Alternatif_Polytechnique_Montreal_blanc_rgb}%
+      };
+
+  \end{tikzpicture}
+
+
+  
+ 
+
+
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,inner sep=0pt,text width=\paperwidth-1.8cm,align=left]
+      at ([xshift=0.9cm,yshift=-0.6cm]current page.north west) {%
+        \color{polymtlwhite}\bfseries
+        {\large\textbf{\inserttitle}\par}
+        \vspace{0.4cm}
+        {\large\insertauthor\par}
+        \vspace{0.3cm}
+        {\normalsize\insertdate\par}
+      };
+  \end{tikzpicture}
+  %\begin{picture}(0,0)(0,0)
+  %  \put(-15,10){
+  %      \begin{minipage}{\linewidth}
+  %        \large\color{polymtlwhite} \insertauthor\par
+  %      \end{minipage}
+  %  }
+  %\end{picture}
+}
+
+% HEADER
+\defbeamertemplate*{headline}{polymtl}%
+{
+  \begin{beamercolorbox}[wd=\paperwidth,center,sep=0.6em]{headerline title}
+    \begin{minipage}{\beamer@polymtl@menuwidth}
+      \insertsectionnavigationhorizontal{\beamer@polymtl@menuwidth}{\hfill}{\hfill}%
+    \end{minipage}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=\paperwidth,sep=1px]{headerline border}
+    \vspace{1px}
+  \end{beamercolorbox}
+}
+
+% FOOTER
+\defbeamertemplate*{footline}{polymtl}
+{
+%\leavevmode%
+  \begin{beamercolorbox}[wd=\paperwidth,leftskip=1em,sep=0.2em]{footerline}
+    Dec 14, 2026\;--\; Polytechnique Montréal\;--\;\insertshorttitle\;--\;\insertshortauthor \hfill %
+    \ifx\beamer@polymtl@numbering\beamer@polymtl@value@false\relax\else
+        \insertframenumber/\inserttotalframenumber\;\; %
+    \fi
+%    \ifx\beamer@polymtl@url\beamer@polymtl@value@empty
+%        {\bfseries www.polymtl.ca}
+%    \else
+%        {\bfseries \beamer@polymtl@url}
+%    \fi
+  \end{beamercolorbox}  
+}
+
+
+% SECTION LIST
+\usesectionheadtemplate
+{ %active
+  \color{polymtlwhite} \insertsectionhead
+}
+{ %other
+  \color{polymtllightgrey} \insertsectionhead
+}
+
+% BACKGROUND IMAGE
+\setbeamertemplate{background}{
+  \ifnum\insertframenumber=1\else
+  \parbox[r][\paperheight]{\paperwidth}{
+    \vfill\hfill
+    \includegraphics[width=80px]{img_theme/polymtl-watermark.pdf}
+  }
+  \fi
+}
+
+
+\defbeamertemplate*{frametitle}{}
+{
+  \begin{beamercolorbox}[sep=0ex,ht= 2.5ex, wd=\paperwidth]{}
+    \hspace{2ex}\insertframetitle{} \hspace{1ex}\hrulefill %
+  \end{beamercolorbox}%
+}
+
+%
+\newcommand{\sectionframe}[1]
+{
+    \begin{beamercolorbox}[wd=\textwidth]{footerline}
+        \begin{minipage}{\textwidth}
+          \vspace{1em}
+          \centering\Large{\color{white}{#1}}
+          \vspace{1em}
+        \end{minipage}%
+    \end{beamercolorbox}%
+    \nointerlineskip
+    \begin{beamercolorbox}[sep=0ex,ht=2pt, wd=\textwidth]{headerline border}
+    \end{beamercolorbox}%
+}
+%\mode<handout>
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+\mode
+<all>

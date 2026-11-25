@@ -1,0 +1,507 @@
+\section[Intro.]{Introduction \& Research Objectives}
+
+\input{SLIDES/TRANSITIONS/01_INTRODUCTION_AND_RESEARCH_OBJECTIVES}
+
+% ---------------------------------------------------------------------------
+% Slide 1: Aircraft Icing: Context and Motivation
+% ---------------------------------------------------------------------------
+\begin{frame}{Aircraft Icing: Context and Motivation}
+
+\vspace{0.15cm}
+
+\begin{columns}[T,onlytextwidth]
+\hspace*{0.05\textwidth}%
+% LEFT COLUMN
+\begin{column}{0.41\textwidth}
+
+\vspace{0.3cm}
+
+{\small Aircraft manufacturers strive to develop
+\textbf{\color{champsBlue}lighter and more
+efficient aircraft}, while ensuring
+\textbf{safe operation} under a wide range
+of atmospheric conditions.}
+
+\vspace{0.2cm}
+
+{\small Among these challenges,
+\textbf{\color{champsBlue}in-flight icing}
+remains a major concern.}
+
+\end{column}
+
+% RIGHT COLUMN
+\begin{column}{0.44\textwidth}
+
+\begin{tikzpicture}
+  \begin{scope}
+    \clip[rounded corners=5pt]
+        (0,0) rectangle (5.5,2.75);
+
+    \node[inner sep=0pt] at (2.25,1.375) {
+        \includegraphics[
+            width=6.8cm
+        ]{FIGURES/SECTION_TRANSITION/ICE_WING.jpg}
+    };
+  \end{scope}
+    \node[anchor=north,inner sep=0pt,font=\scriptsize,text=gray]
+        at (2.75,-0.15) {Ice accretion on an aircraft wing.};
+\end{tikzpicture}
+
+\end{column}
+\hspace*{0.05\textwidth}%
+
+\end{columns}
+
+\vspace{0.15cm}
+
+% BOTTOM PHYSICAL PROCESS
+\begin{center}
+\vspace{-0.2cm}
+\begin{tikzpicture}
+
+\node[
+    fill=champsBlue!7,
+    rounded corners=4pt,
+    text width=0.9\textwidth,
+    inner sep=0.25cm,
+    align=center
+] {
+    \textbf{\color{champsBlue}
+    Supercooled droplets}
+    freeze and accumulate on aircraft surfaces,
+    altering their geometry and aerodynamic behavior.
+};
+
+\end{tikzpicture}
+\end{center}
+
+\vspace{-0.1cm}
+
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.48\textwidth}
+\centering
+{\color{champsBlue}\bfseries
+Aerodynamic Performance Loss}
+
+\vspace{0.08cm}
+{\small Increased drag, reduced lift,
+and degraded handling qualities}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\centering
+{\color{champsBlue}\bfseries
+Flight Safety Risks}
+
+\vspace{0.08cm}
+{\small Potential loss of control
+and catastrophic accidents}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+% ---------------------------------------------------------------------------
+% Slide 2: Aircraft Icing: Prediction and Certification
+% ---------------------------------------------------------------------------
+\begin{frame}{Aircraft Icing: Prediction and Certification}
+
+\vspace{0.05cm}
+
+Accurate assessment of aircraft icing
+is essential to demonstrate safe operation
+under icing conditions.
+
+\vspace{0.05cm}
+
+{\color{champsBlue}\bfseries\small Three Complementary Approaches}\par
+\vspace{0.1cm}
+
+\vspace{-0.05cm}
+
+\begin{columns}[T,onlytextwidth]
+
+% FLIGHT TESTS
+\begin{column}{0.32\textwidth}
+\introCard
+    {}
+    {In-Flight Testing}
+    {
+    \textbf{Realistic operating conditions}
+
+    \vspace{0.1cm}
+
+    \textcolor{red!70!black}{\textbf{Limitations:}}
+
+    High costs, safety risks, and
+    limited control over atmospheric
+    conditions.
+    }
+\end{column}
+
+% WIND TUNNEL
+\begin{column}{0.32\textwidth}
+\introCard
+    {}
+    {Wind Tunnel Testing}
+    {
+    \textbf{Controlled experimental conditions}
+
+    \vspace{0.1cm}
+
+    \textcolor{red!70!black}{\textbf{Limitations:}}
+
+    Scaling difficulties, facility
+    constraints, and significant
+    experimental costs.
+    }
+\end{column}
+
+% NUMERICAL
+\begin{column}{0.32\textwidth}
+\introCard
+    {}
+    {Numerical Simulations}
+    {
+    \textbf{Flexible and cost-effective prediction}
+
+    \vspace{0.1cm}
+
+    \textcolor{champsBlue}{\textbf{Opportunities:}}
+
+    Wider exploration of icing
+    conditions and a growing role
+    in certification activities.
+    }
+\end{column}
+
+\end{columns}
+
+\vspace{0.1cm}
+
+\begin{center}
+\setlength{\fboxsep}{6pt}
+\colorbox{champsBlue!8}{%
+\parbox{0.88\textwidth}{%
+\centering\small
+\textbf{\color{champsBlue}
+Numerical simulations complement experimental
+testing and motivate the development of
+accurate, robust ice-accretion models.}
+}}
+\end{center}
+
+\end{frame}
+
+% ---------------------------------------------------------
+% Separation of physical time scales
+% ---------------------------------------------------------
+\begin{frame}{Separation of Physical Time Scales}
+
+\vspace{0.1cm}
+
+Aircraft icing involves physical processes operating
+at significantly different characteristic time scales.
+
+\vspace{0.15cm}
+
+\begin{center}
+{\large
+$\displaystyle
+\underbrace{
+\tau_{\mathrm{flow}},
+\quad \tau_{\mathrm{droplet}}
+}_{\text{Short time scales}}
+\ \ll\
+\underbrace{
+\tau_{\mathrm{ice}}
+}_{\text{Long time scale}}
+$}
+
+\vspace{0.2cm}
+$\displaystyle
+\tau_{\mathrm{flow}}=\frac{L}{U_\infty},\qquad
+\tau_{\mathrm{droplet}}=\frac{\rho_d D^2}{18\mu_a},\qquad
+\tau_{\mathrm{ice}}=\frac{L}{V_{\mathrm{ice}}}$
+\end{center}
+
+\vspace{0.2cm}
+
+{\color{champsBlue}\bfseries
+Quasi-Steady Hypothesis}
+
+\vspace{0.1cm}
+
+The airflow and droplet-impingement solutions are
+assumed steady over each ice-accretion interval,
+while the geometry evolves over a much longer
+time scale.
+
+\end{frame}
+
+% ---------------------------------------------------------
+% Quasi-steady ice-accretion workflow
+% ---------------------------------------------------------
+\begin{frame}{Numerical Ice-Accretion Modeling}
+
+\begin{columns}[c,onlytextwidth]
+
+% LEFT: steps, highlighted one at a time
+\begin{column}{0.58\textwidth}
+\IcingText{01 \quad Geometry and Mesh Representation}
+{Definition of the initial geometry using
+a \textbf{body-fitted} or
+\textbf{immersed-boundary} approach.}\par\vspace{0.22cm}
+\IcingText{02 \quad Aerodynamic Flow}
+{Air velocity $\mathbf{u}_a$, pressure $p$,
+temperature $T$, and heat-transfer
+coefficient (HTC).}\par\vspace{0.22cm}
+\IcingText{03 \quad Droplet Impingement}
+{Droplet trajectories and collection
+efficiency $\beta$, yielding the
+impinging water mass flux
+$\dot{m}_{\mathrm{imp}}$.}\par\vspace{0.22cm}
+\IcingText{04 \quad Thermodynamics and Ice Growth}
+{Surface mass and energy balances
+yielding the ice accretion rate
+$\dot{m}_{\mathrm{ice}}$ and
+ice thickness $h_{\mathrm{ice}}$.}\par\vspace{0.22cm}
+\IcingText{05 \quad Geometry and Mesh Update}
+{Update the ice geometry and adapt
+the computational representation
+for the next accretion step.}
+\end{column}
+
+% RIGHT: one image at a time, centred
+\begin{column}{0.40\textwidth}
+\centering
+\only<1>{%
+  {\scriptsize\color{champsBlue}\bfseries Body-fitted}\par\vspace{0.05cm}
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}\fbox{\includegraphics[width=\linewidth,height=2.95cm,keepaspectratio]{FIGURES/INTRODUCTION/meshLE_BF}}}\par\vspace{0.08cm}
+  {\scriptsize\color{champsBlue}\bfseries Immersed boundary}\par\vspace{0.05cm}
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}\fbox{\includegraphics[width=\linewidth,height=2.95cm,keepaspectratio]{FIGURES/INTRODUCTION/meshLE_IBM}}}}%
+\only<2>{\includegraphics[width=\linewidth,height=4.4cm,keepaspectratio,trim=0 0 0 56,clip]{FIGURES/INTRODUCTION/FLOW}}%
+\only<3>{\includegraphics[width=\linewidth,height=4.4cm,keepaspectratio,trim=0 0 0 56,clip]{FIGURES/INTRODUCTION/DROPLET}}%
+\only<4>{\includegraphics[width=\linewidth,height=4.4cm,keepaspectratio,trim=0 62 0 0,clip]{FIGURES/INTRODUCTION/ACCRETION}}%
+\only<5>{\includegraphics[width=\linewidth,height=4.4cm,keepaspectratio,trim=0 57 0 0,clip]{FIGURES/INTRODUCTION/UPDATE}}%
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Quasi-Steady Ice-Accretion Framework}
+\vspace{-0.25cm}
+\begin{center}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{FIGURES/INTRODUCTION/ICING_FRAMEWORK}
+\end{center}
+\end{frame}
+
+% ---------------------------------------------------------
+% Single-step vs. multilayer ice accretion
+% ---------------------------------------------------------
+\begin{frame}{Single-Step vs. Multilayer Ice Accretion}
+\vspace{0.12cm}
+\begin{columns}[T,onlytextwidth]
+ \begin{column}{0.485\textwidth}
+  \centering
+  {\color{champsBlue}\bfseries Single-step ($N=1$)}\par
+  \vspace{0.20cm}
+  \includegraphics[width=0.98\linewidth,height=3.55cm,keepaspectratio]
+    {FIGURES/INTRODUCTION/CASE_362_IPW1_SINGLE_LAYER}\par
+  \vspace{0.18cm}
+  {\small One accretion interval using the initial aerodynamic and impingement fields.}
+ \end{column}
+ \begin{column}{0.485\textwidth}
+  \centering
+  {\color{champsBlue}\bfseries Multilayer ($N=5$)}\par
+  \vspace{0.20cm}
+  \includegraphics[width=0.98\linewidth,height=3.55cm,keepaspectratio]
+    {FIGURES/INTRODUCTION/CASE_362_IPW1_FIVE_LAYERS}\par
+  \vspace{0.18cm}
+  {\small Repeated geometry updates and recomputation of the coupled fields.}
+ \end{column}
+\end{columns}
+\vfill
+\begin{center}
+\fcolorbox{champsBlue!18}{champsBlue!5}{%
+  \parbox{0.90\textwidth}{\centering\small
+  \textbf{Geometry feedback matters:} multilayer simulations can resolve the development of more complex ice features.}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Ice Accretion: Key Terminology}
+
+\vspace{-0.1cm}
+
+{\small Ice morphology depends on atmospheric and
+aerodynamic conditions and the local freezing process.\par}
+
+\vspace{0.12cm}
+
+\begin{columns}[T,onlytextwidth]
+
+% RIME ICE
+\begin{column}{0.315\textwidth}
+\centering
+{\color{champsBlue}\bfseries\large Rime Ice}
+
+\vspace{0.06cm}
+
+\includegraphics[width=\linewidth,height=3.55cm,keepaspectratio]{FIGURES/INTRODUCTION/CRM_RIME.JPG}
+
+\vspace{0.06cm}
+
+{\footnotesize
+Rapid freezing upon impact, producing
+relatively smooth, opaque ice deposits.\par}
+\end{column}
+
+% MIXED ICE
+\begin{column}{0.315\textwidth}
+\centering
+{\color{champsBlue}\bfseries\large Mixed Ice}
+
+\vspace{0.06cm}
+
+\includegraphics[width=\linewidth,height=3.55cm,keepaspectratio]{FIGURES/INTRODUCTION/CRM_MIXED.JPG}
+
+\vspace{0.06cm}
+
+{\footnotesize
+Combination of rime- and glaze-like
+ice characteristics.\par}
+\end{column}
+
+% GLAZE ICE
+\begin{column}{0.315\textwidth}
+\centering
+{\color{champsBlue}\bfseries\large Glaze Ice}
+
+\vspace{0.06cm}
+
+\includegraphics[width=\linewidth,height=3.55cm,keepaspectratio]{FIGURES/INTRODUCTION/CRM_GLAZE.JPG}
+
+\vspace{0.06cm}
+
+{\footnotesize
+Partial freezing with liquid-water runback,
+often resulting in complex horn-like shapes.\par}
+\end{column}
+
+\end{columns}
+
+\vspace{0.15cm}
+
+{\color{champsBlue}\bfseries
+Supercooled Large Droplets (SLD):}
+{\small
+Large droplets that may splash, rebound,
+and reimpinge farther downstream.\par}
+
+\end{frame}
+
+% ---------------------------------------------------------
+% Conventional approach: geometric challenges
+% ---------------------------------------------------------
+\begin{frame}{Conventional Approach: Geometric Challenges}
+\vspace{0.08cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.46\textwidth}
+  {\color{champsBlue}\bfseries Direct surface-node displacement}\par
+  \vspace{0.10cm}
+  \includegraphics[width=\linewidth,height=1.85cm,keepaspectratio]
+    {FIGURES/INTRODUCTION/LAGRANGIAN_NODE_DISPLACEMENT}
+  \vspace{0.08cm}
+  \[\mathbf{x}_{\mathrm{new}}=\mathbf{x}_{\mathrm{old}}+h_{\mathrm{ice}}\,\mathbf{n}\]
+  \vspace{-0.18cm}
+  \par{\small Surface nodes are displaced; the body-fitted flow mesh must subsequently be deformed or regenerated.\par}
+\end{column}
+\begin{column}{0.50\textwidth}
+  {\color{champsBlue}\bfseries Increasing geometric complexity}\par
+  \vspace{0.14cm}
+  \centering
+  \includegraphics[width=\linewidth,height=3.52cm,keepaspectratio]
+    {FIGURES/INTRODUCTION/ENTANGLEMENT.png}
+  \par\vspace{0.22cm}
+  {\scriptsize Example of a challenging mesh near a 3D ice feature.}
+\end{column}
+\end{columns}
+\vfill
+\begin{center}
+\fcolorbox{champsBlue!18}{champsBlue!5}{%
+  \parbox{0.91\textwidth}{\centering\small
+  \textbf{Numerical challenge:} complex ice features can lead to poor-quality or tangled cells,
+  making repeated body-fitted mesh updates difficult.}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Research Objectives}
+
+\vspace{0.15cm}
+
+{\color{champsBlue}\bfseries
+Overall Objective}
+
+\vspace{0.12cm}
+
+\colorbox{champsBlue!7}{%
+\parbox{0.94\textwidth}{%
+\vspace{0.14cm}
+Improve the \textbf{robustness of
+three-dimensional multilayer ice-accretion
+simulations}, with an emphasis on
+level-set-based geometry evolution.
+\vspace{0.14cm}
+}}
+
+\vspace{0.45cm}
+
+{\color{champsBlue}\bfseries
+Scientific and Numerical Contributions}
+
+\vspace{0.28cm}
+
+{\color{champsBlue}\bfseries
+01 \quad Lagrangian Droplet Impingement}
+
+\vspace{0.06cm}
+
+\hspace{0.55cm}\parbox{0.92\textwidth}{%
+\small\raggedright
+Develop efficient particle-tracking methods
+and incorporate supercooled large droplet effects.
+}
+
+\vspace{0.32cm}
+
+{\color{champsBlue}\bfseries
+02 \quad Three-Dimensional Level-Set Ice Accretion}
+
+\vspace{0.06cm}
+
+\hspace{0.55cm}\parbox{0.92\textwidth}{%
+\small\raggedright
+Develop a robust methodology for multilayer
+geometry evolution and surface reconstruction.
+}
+
+\vspace{0.32cm}
+
+{\color{champsBlue}\bfseries
+03 \quad Immersed Boundary Method}
+
+\vspace{0.06cm}
+
+\hspace{0.55cm}\parbox{0.92\textwidth}{%
+\small\raggedright
+Enable coupled ice-accretion simulations
+without repeated body-fitted aerodynamic remeshing.
+}
+
+\end{frame}
+
+% Add section slides here.

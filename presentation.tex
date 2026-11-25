@@ -1,0 +1,228 @@
+\documentclass[10pt,aspectratio=169,xcolor={table,xcdraw}]{beamer}
+
+\usetheme[
+%url={nano.polymtl.ca},
+%numbering={false},
+menuwidth={0.35\paperwidth}
+]{polymtl}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[tabular,lining,scale=0.9]{montserrat}
+%\setlist[myitemize,1]{label=\textbullet,leftmargin=1in}
+\setbeamercovered{transparent=20}
+\usepackage{graphicx} 
+\usepackage[table,xcdraw]{xcolor}
+\graphicspath{{./Figures/}}
+%\usepackage{epstopdf}
+\usepackage{caption}
+\usepackage[labelformat=simple]{subcaption}
+\usepackage{multicol}
+\usepackage{gensymb}
+\usepackage{tabu}
+\usepackage{xcolor}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{float}
+%\usepackage{subfigure}
+\usepackage{ragged2e}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage{animate}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{framed, color}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage[pangram]{blindtext}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{verbatim}
+%\usepackage{pgfplots}
+\usetikzlibrary{shapes,arrows,calc,shadows}
+%\usetikzlibrary{decorations.markings}
+\usepackage{pgfplots}
+\usepackage{pgffor}
+\usepackage{pgfgantt}
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{sidecap}
+\usepackage{wrapfig}
+% Preamble
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+% In your preamble
+\usepackage{tikz}
+% In preamble
+\usepackage{multimedia}
+\usepackage{media9}
+\usepackage{animate}
+\usetikzlibrary{arrows.meta, positioning, fit}
+
+\usepackage[bottom]{footmisc}
+
+%\usepackage{booktabs} 
+\usepackage[]{algorithmicx}
+\usepackage[]{algpseudocode}
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{unsrtnat}
+\usepackage{setspace}
+\usepackage{marvosym} % \MVRIGHTarrow
+
+
+\setbeamersize{text margin left=10pt,text margin right=10pt}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+
+\definecolor{shadecolor}{rgb}{0., 0., 0.}
+
+\newcommand\topicSlide[3]{
+\begin{frame}
+\vspace*{1cm}
+\begin{tcolorbox}[width=\textwidth,
+boxsep=0pt,
+left=0pt,
+right=0pt,
+top=10pt,
+arc=0pt,
+boxrule=0pt,toprule=1pt,
+bottomrule=1pt,
+colback=polymtlbluel,
+grow to left by=10mm,
+grow to right by=10mm,
+arc = 0mm
+]%%
+\centering
+\textcolor{polymtlwhite}{\huge #1}
+\vspace*{10pt}
+\textcolor{polymtlwhite}{\\ \Large #2}
+\vspace*{10pt}
+\textcolor{polymtlwhite}{\\ \normalsize #3}
+\end{tcolorbox}
+\end{frame}
+}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=3pt] (char) {#1};}}
+
+
+\setbeamertemplate{caption}[numbered]
+\captionsetup[figure]{labelformat=default}
+\captionsetup[table]{labelformat=default}
+
+
+\input{section-divider}
+
+\usetikzlibrary{calc}
+% Reusable section label
+\newcommand{\introLabel}[1]{%
+    {\color{champsBlue}\bfseries\small #1}\par
+    \vspace{0.08cm}
+    {\color{champsBlue}\rule{1.15cm}{1.5pt}}
+}
+% Reusable information card
+\newcommand{\introCard}[3]{%
+\begin{tikzpicture}
+\node[
+    rounded corners=4pt,
+    fill=champsBlue!6,
+    draw=champsBlue!17,
+    line width=0.5pt,
+    inner sep=0.22cm,
+    text width=\dimexpr\linewidth-0.44cm\relax,
+    minimum height=2.9cm,
+    align=left,
+    anchor=north west
+] at (0,0) {%
+    \if\relax\detokenize{#1}\relax\else{\color{champsBlue}\bfseries\large #1}\par\vspace{0.05cm}\fi
+    {\color{champsBlue}\bfseries #2}\par
+    \vspace{0.17cm}
+    {\small\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000 #3\par}
+};
+\end{tikzpicture}%
+}
+% Step text block: full colour from its step onwards, faded before.
+% #1 = title, #2 = description
+\newcommand{\IcingText}[2]{%
+\uncover<+->{%
+\parbox{\linewidth}{%
+{\color{champsBlue}\bfseries #1}\par
+\vspace{0.02cm}
+{\small\raggedright #2\par}}}%
+}
+% Photo that falls back to a placeholder box until the file exists.
+% #1 = image path, #2 = placeholder label
+\newcommand{\IcePhoto}[2]{%
+\IfFileExists{#1}{%
+\includegraphics[width=\linewidth,height=2.35cm,keepaspectratio]{#1}}{%
+\fbox{\parbox[c][2.2cm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\centering\scriptsize\color{gray}#2\\Image placeholder}}}%
+}
+% Figure that falls back to a placeholder until the file exists.
+% #1 = path without extension, #2 = includegraphics options, #3 = placeholder height
+\newcommand{\FigOrPlaceholder}[3]{%
+\IfFileExists{#1.pdf}{\includegraphics[#2]{#1.pdf}}{%
+\IfFileExists{#1.eps}{\includegraphics[#2]{#1.eps}}{%
+\IfFileExists{#1.png}{\includegraphics[#2]{#1.png}}{%
+\fbox{\parbox[c][#3][c]{0.9\linewidth}{\centering\scriptsize\color{gray}%
+\detokenize{#1}\\Image placeholder}}}}}%
+}
+% Reusable process row: #1 = step title, #2 = description, #3 = image
+\newcommand{\IcingRow}[3]{%
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.66\textwidth}
+\IcingText{#1}{#2}
+\end{column}
+\begin{column}{0.32\textwidth}
+\centering
+\visible<.->{\includegraphics[
+    width=\linewidth,
+    height=1.15cm,
+    keepaspectratio
+]{#3}}
+\end{column}
+\end{columns}
+
+\vspace{0.06cm}
+}
+
+\begin{document}
+
+\title [Level Set Icing]{\Large Numerical Modeling of Three-Dimensional Multilayer\\ In-Flight Ice Accretion Using a Level-Set Method} 
+
+\author[K. Zayni]{\large Mohamad Karim Zayni\\[0.15cm] \normalsize Supervisor: Prof. \'Eric Laurendeau\\ Department of Mechanical Engineering}
+
+
+\date{\small December 14, 2026}
+\institute{Polytechnique Montreal}
+
+\begin{frame}[plain]
+\vspace{-0.5cm}
+\begin{columns}
+\column{.05\textwidth}
+\column{.9\textwidth}
+\titlepage
+\column{.05\textwidth}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\small \textbf{Table of Contents}}
+\Large
+\tableofcontents
+\end{frame}
+
+\input{SLIDES/01_INTRODUCTION_AND_RESEARCH_OBJECTIVES}
+%\input{SLIDES/02_NUMERICAL_FRAMEWORK}
+\input{SLIDES/03_LAGRANGIAN_DROPLET_IMPINGEMENT}
+\input{SLIDES/04_THREE_DIMENSIONAL_LEVEL_SET_ICE_ACCRETION}
+\input{SLIDES/05_HYBRID_IMMERSED_BOUNDARY_METHOD}
+\input{SLIDES/06_CONCLUSIONS_AND_PERSPECTIVES}
+
+\input{SLIDES/07_ACKNOWLEDGEMENTS}
+
+\nocite{clift2005bubbles,OSHER2004,FROLKOVIC2015214,lavoieLevelSet,alessandroLevelSet,dapogny2014mmg}
+\begin{frame}[allowframebreaks]{\small References}
+\scriptsize
+\bibliography{references}
+\end{frame}
+
+\end{document}

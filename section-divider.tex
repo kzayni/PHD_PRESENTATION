@@ -1,0 +1,122 @@
+% Icy section-divider design.
+\definecolor{champsBlue}{RGB}{15,75,140}
+\definecolor{iceBlue}{RGB}{102,185,225}
+
+\newcommand{\IceFlake}[2]{%
+  \begin{scope}[shift={#1},scale=#2]
+    \foreach \a in {0,60,...,300}{
+      \draw[iceBlue!80,line width=0.65pt] (0,0) -- (\a:0.35);
+      \begin{scope}[rotate=\a]
+        \draw[iceBlue!80,line width=0.5pt] (0.24,0) -- (0.17,0.075);
+        \draw[iceBlue!80,line width=0.5pt] (0.24,0) -- (0.17,-0.075);
+      \end{scope}
+    }
+  \end{scope}
+}
+
+\newcommand{\SectionDivider}[2]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+% White background
+\fill[white] (current page.south west) rectangle (current page.north east);
+% Soft icy background
+\path[fill=iceBlue!8]
+  ([xshift=-8cm]current page.south east)
+  .. controls ([xshift=-5.5cm,yshift=2.2cm]current page.south east)
+  and ([xshift=-2.5cm,yshift=3.0cm]current page.south east)
+  .. ([yshift=3.5cm]current page.south east)
+  -- (current page.south east) -- cycle;
+% Stylized ice-covered wing
+\path[fill=champsBlue!18]
+  ([xshift=-5.6cm,yshift=0.15cm]current page.south east)
+  .. controls ([xshift=-4cm,yshift=1.45cm]current page.south east)
+  and ([xshift=-1.8cm,yshift=2.25cm]current page.south east)
+  .. ([yshift=2.65cm]current page.south east)
+  -- (current page.south east) -- cycle;
+% Ice along the leading edge
+\draw[iceBlue!70,line width=3pt]
+  ([xshift=-5.6cm,yshift=0.15cm]current page.south east)
+  .. controls ([xshift=-4cm,yshift=1.45cm]current page.south east)
+  and ([xshift=-1.8cm,yshift=2.25cm]current page.south east)
+  .. ([yshift=2.65cm]current page.south east);
+% Section number
+\node[anchor=west,text=champsBlue,
+  font=\fontsize{38}{42}\selectfont\bfseries]
+  at ([xshift=1.2cm,yshift=1.15cm]current page.west) {#1};
+% Blue accent line
+\draw[champsBlue,line width=2pt]
+  ([xshift=1.2cm,yshift=0.5cm]current page.west) -- ++(2.7cm,0);
+% Ice hanging from accent line
+\foreach \x/\h in {1.45/0.16,1.85/0.25,2.30/0.12,2.85/0.20,3.35/0.13}{
+  \fill[iceBlue!55]
+    ([xshift=\x cm,yshift=0.5cm]current page.west)
+    -- ++(-0.045cm,0) -- ++(0.045cm,-\h cm)
+    -- ++(0.045cm,\h cm) -- cycle;
+}
+% Section title
+\node[anchor=west,text=champsBlue!90!black,text width=9cm,align=left,
+  font=\fontsize{28}{34}\selectfont\bfseries]
+  at ([xshift=1.2cm,yshift=-0.35cm]current page.west) {#2};
+% Decorative ice crystals
+\IceFlake{([xshift=-2.3cm,yshift=1.05cm]current page.east)}{1.0}
+\IceFlake{([xshift=-1.2cm,yshift=1.85cm]current page.east)}{0.55}
+\IceFlake{([xshift=-3.2cm,yshift=-0.35cm]current page.east)}{0.7}
+\end{tikzpicture}
+\end{frame}
+}
+
+% Curved photo section transition: number, title, image path.
+\newlength{\iceDividerWidth}
+\newlength{\iceDividerHeight}
+\newcommand{\IceCurve}{%
+  (1.10\W,1.12\H) .. controls (0.62\W,0.80\H) and (0.62\W,0.30\H) .. (0.22\W,0)}
+% Horizontal position of the photo's right edge (fraction of slide width).
+% Override for one divider with \renewcommand{\iceImgX}{...} before it.
+\newcommand{\iceImgX}{1.06}
+% Vertical position of the photo's centre (fraction of slide height).
+\newcommand{\iceImgY}{0.5}
+% Fill colour behind the photo (shows where the photo does not reach).
+\newcommand{\iceImgBg}{white}
+\newcommand{\IceSectionDivider}[4][]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay,shift={(current page.south west)}]
+\setlength{\iceDividerWidth}{\paperwidth}
+\setlength{\iceDividerHeight}{\paperheight}
+\let\W\iceDividerWidth
+\let\H\iceDividerHeight
+% Background: white fading to pale ice blue.
+\shade[left color=white,right color=iceBlue!25] (0,0) rectangle (\W,\H);
+% Photograph clipped by one smooth S-curve.
+\begin{scope}
+  \clip \IceCurve -- (\W,0) -- (\W,\H) -- cycle;
+  \fill[\iceImgBg] (0,0) rectangle (\W,\H);
+  \node[inner sep=0pt,anchor=east] at (\iceImgX\W,\iceImgY\H)
+    {\includegraphics[height=\H,#1]{#4}};
+\end{scope}
+% Soft feathered edge: stacked translucent white strokes.
+\foreach \w/\o in {26/0.10,18/0.15,11/0.22,5/0.35}{
+  \draw[white,line width=\w pt,opacity=\o] \IceCurve;
+}
+% Light ribbon sweeping beside the edge.
+\fill[iceBlue!35,opacity=0.45]
+  (1.10\W,1.12\H) .. controls (0.62\W,0.80\H) and (0.62\W,0.30\H) .. (0.22\W,0)
+  -- (0.12\W,0) .. controls (0.50\W,0.25\H) and (0.55\W,0.75\H) .. (1.02\W,1.12\H) -- cycle;
+\draw[white,line width=1pt,opacity=0.9] \IceCurve;
+% Section number (centred on the text axis).
+\def\iceAxis{0.26}
+\node[anchor=south,text=champsBlue,
+  font=\fontsize{40}{44}\selectfont\itshape]
+  at (\iceAxis\W,0.72\H) {#2};
+% Accent line: fading out on both sides.
+\shade[left color=champsBlue!0,right color=champsBlue]
+  (\iceAxis\W-0.11\W,0.707\H) rectangle (\iceAxis\W-0.04\W,0.713\H);
+\fill[champsBlue] (\iceAxis\W-0.04\W,0.705\H) rectangle (\iceAxis\W+0.04\W,0.715\H);
+\shade[left color=champsBlue,right color=champsBlue!0]
+  (\iceAxis\W+0.04\W,0.707\H) rectangle (\iceAxis\W+0.11\W,0.713\H);
+% Section title, centred.
+\node[anchor=north,text=champsBlue!70!black,align=center,
+  font=\fontsize{19}{25}\selectfont\bfseries]
+  at (\iceAxis\W,0.66\H) {#3};
+\end{tikzpicture}
+\end{frame}
+}

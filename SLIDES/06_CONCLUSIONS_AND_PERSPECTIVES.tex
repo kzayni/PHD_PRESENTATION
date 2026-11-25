@@ -1,0 +1,194 @@
+\section[Conclusions]{Conclusions and Perspectives}
+
+\input{SLIDES/TRANSITIONS/06_CONCLUSIONS_AND_PERSPECTIVES}
+
+\begin{frame}{General Conclusions}
+
+\vspace{0.15cm}
+
+{\color{champsBlue}\bfseries
+Lagrangian Droplet Impingement}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Efficient and scalable particle tracking,
+    with adaptive seeding and accelerated intersections.
+    \item Consistent Eulerian--Lagrangian predictions,
+    with extended capabilities for SLD modeling.
+\end{itemize}
+
+\vspace{0.22cm}
+
+{\color{champsBlue}\bfseries
+Three-Dimensional Level-Set Ice Accretion}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Robust multilayer geometry evolution,
+    avoiding surface-mesh entanglement.
+    \item Successful prediction of complex 3D ice
+    morphologies, including scallop structures.
+\end{itemize}
+
+\vspace{0.22cm}
+
+{\color{champsBlue}\bfseries
+Immersed Boundary Method}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Integration of flow, droplet, thermodynamic,
+    and geometry-evolution models.
+    \item Demonstrated feasibility of ice accretion
+    without repeated body-fitted aerodynamic remeshing.
+\end{itemize}
+
+\vfill
+
+\begin{center}
+\colorbox{champsBlue!7}{%
+\parbox{0.92\textwidth}{%
+\centering
+\small\bfseries
+A robust numerical foundation for increasingly
+complex 3D multilayer ice-accretion simulations.
+}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Current Limitations}
+
+\vspace{0.22cm}
+
+{\color{champsBlue}\bfseries
+Physical Modeling}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Ice-shape accuracy remains sensitive to
+    aerodynamic, thermodynamic, and droplet predictions.
+    \item Glaze ice is particularly sensitive to
+    heat-transfer and surface-roughness modeling.
+\end{itemize}
+
+\vspace{0.35cm}
+
+{\color{champsBlue}\bfseries
+Lagrangian Computational Cost}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Converged 3D impingement fields may require
+    large numbers of trajectories.
+    \item Irregular workloads and memory access
+    complicate distributed-memory scalability.
+\end{itemize}
+
+\vspace{0.35cm}
+
+{\color{champsBlue}\bfseries
+Immersed Boundary Method}
+
+\vspace{0.10cm}
+
+\begin{itemize}
+    \item Absence of adaptive mesh refinement (AMR).
+    \item Large predefined refined regions may
+    increase computational cost.
+    \item Near-wall heat-transfer modeling
+    requires further improvement.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Future Perspectives}
+
+\vspace{0.20cm}
+
+\begin{columns}[T,onlytextwidth]
+
+% LEFT COLUMN
+\begin{column}{0.48\textwidth}
+
+{\color{champsBlue}\bfseries
+Physical Modeling}
+
+\vspace{0.12cm}
+
+\begin{itemize}
+    \item Spatially and temporally varying
+    surface roughness.
+    \item Variable ice-density models.
+    \item Improved thermodynamic
+    and heat-transfer predictions.
+\end{itemize}
+
+\vspace{0.35cm}
+
+{\color{champsBlue}\bfseries
+Level-Set Geometry Evolution}
+
+\vspace{0.12cm}
+
+\begin{itemize}
+    \item Accelerate MMG surface extraction
+    and improve mesh quality.
+    \item Investigate local ice-mass
+    conservation strategies.
+\end{itemize}
+
+\end{column}
+
+% RIGHT COLUMN
+\begin{column}{0.48\textwidth}
+
+{\color{champsBlue}\bfseries
+Immersed Boundary Method}
+
+\vspace{0.12cm}
+
+\begin{itemize}
+    \item Adaptive mesh refinement
+    around the evolving ice interface.
+    \item Improved near-wall
+    heat-transfer treatment.
+\end{itemize}
+
+\vspace{0.35cm}
+
+{\color{champsBlue}\bfseries
+Lagrangian Droplet Tracking}
+
+\vspace{0.12cm}
+
+\begin{itemize}
+    \item GPU acceleration for
+    large-scale 3D simulations.
+    \item Improved data locality
+    and workload balancing.
+\end{itemize}
+
+\end{column}
+
+\end{columns}
+
+\vfill
+
+\begin{center}
+\colorbox{champsBlue!7}{%
+\parbox{0.92\textwidth}{%
+\centering
+\small\bfseries
+Toward more accurate, efficient, and automated
+3D multilayer ice-accretion simulations.
+}}
+\end{center}
+
+\end{frame}
+

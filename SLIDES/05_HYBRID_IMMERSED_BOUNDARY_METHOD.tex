@@ -1,0 +1,268 @@
+\section[IBM]{Immersed Boundary Method}
+
+\input{SLIDES/TRANSITIONS/05_HYBRID_IMMERSED_BOUNDARY_METHOD}
+
+% 1. EXISTING CHAMPS IBM + THESIS EXTENSION
+\begin{frame}[t]{Immersed-Boundary Framework in CHAMPS}
+\vspace{0.10cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.44\textwidth}
+{\color{champsBlue}\bfseries Existing Aerodynamic Solver}\par
+\vspace{0.10cm}
+\begin{itemize}\setlength{\itemsep}{6pt}
+  \item \textbf{Ghost-cell RANS IBM} previously developed in CHAMPS.
+  \item Boundary conditions reconstructed near the immersed surface.
+  \item Wall-modeling distance $H_{\mathrm{mod}}$ used for turbulent near-wall treatment.
+\end{itemize}
+\vspace{0.22cm}
+{\color{champsBlue}\bfseries Extension in This Thesis}\par
+\vspace{0.10cm}
+\small Coupling the existing flow solver with \textbf{both droplet formulations},
+thermodynamics, and multilayer level-set geometry evolution.
+\end{column}
+\hfill
+\begin{column}{0.53\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=3.80cm,keepaspectratio]{FIGURES/IBM/HMOD_GC}\par
+\vspace{0.07cm}
+{\scriptsize\color{gray}Existing near-wall ghost-cell treatment: standard and modified positioning.}
+\end{column}
+\end{columns}
+\vfill
+\begin{center}
+\colorbox{champsBlue!7}{\parbox{0.93\textwidth}{\centering\small
+\vspace{0.10cm}
+\textbf{Goal:} Complete multilayer icing without repeated body-fitted RANS volume-mesh generation.
+\vspace{0.10cm}}}
+\end{center}
+\end{frame}
+
+% 2. EULERIAN IMMERSED DROPLET TREATMENT
+\begin{frame}[t]{Eulerian Droplets: Penalization Strategy}
+\vspace{0.06cm}
+\small Established penalization strategy integrated into the CHAMPS Eulerian droplet solver.
+\vspace{0.17cm}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.32\textwidth}
+  \centering\includegraphics[width=\linewidth,height=1.50cm,keepaspectratio]{FIGURES/IBM/mask}\par
+  \vspace{0.02cm}
+  {\small\color{champsBlue}\bfseries Solid mask $\chi$}\par
+  \end{column}
+  \begin{column}{0.32\textwidth}
+  \centering\includegraphics[width=\linewidth,height=1.50cm,keepaspectratio]{FIGURES/IBM/maskChiD}\par
+  \vspace{0.02cm}
+  {\small\color{champsBlue}\bfseries Direction mask $\chi_d$}\par
+  \end{column}
+  \begin{column}{0.32\textwidth}
+  \centering\includegraphics[width=\linewidth,height=1.50cm,keepaspectratio]{FIGURES/IBM/maskChiChiD}\par
+  \vspace{0.02cm}
+  {\small\color{champsBlue}\bfseries Active mask $\chi\chi_d$}\par
+  \end{column}
+\end{columns}
+\vspace{0.40cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.53\textwidth}
+{\color{champsBlue}\bfseries Penalized Mass Transport}\par
+\vspace{-0.17cm}
+\[
+\frac{\partial \alpha}{\partial t}
++\nabla\cdot(\alpha\mathbf{u}_d)
+=-\frac{\chi\chi_d}{\eta}\alpha
+\]
+\vspace{0.04cm}
+{\small Momentum transport includes a matching damping term
+$-\chi\chi_d\,\alpha\mathbf u_d/\eta$.}
+\end{column}
+\hfill
+\begin{column}{0.42\textwidth}
+{\color{champsBlue}\bfseries Main Benefits}\par
+\vspace{0.09cm}
+\begin{itemize}\setlength{\itemsep}{4pt}
+  \item Limited solver modifications.
+  \item Body-fitted-like impingement predictions.
+  \item Second-order spatial convergence recovered in verification.
+\end{itemize}
+\end{column}
+\end{columns}
+\vfill
+\begin{center}
+{\small\color{champsBlue}\bfseries Penalization acts only in the incoming-droplet region inside the immersed body.}
+\end{center}
+\end{frame}
+
+% 3. LAGRANGIAN IMMERSED-SURFACE IMPACT DETECTION
+\begin{frame}[t]{Lagrangian Droplets: Immersed-Surface Impacts}
+\vspace{0.06cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.42\textwidth}
+{\color{champsBlue}\bfseries Preserve Face-to-Face Tracking}\par
+\vspace{0.10cm}
+\begin{itemize}\setlength{\itemsep}{4pt}
+  \item Advance trajectories through the \textbf{background volume mesh}.
+  \item Pre-tag cells cut by the immersed surface.
+  \item On entry, test the trajectory ray against associated surface facets.
+  \item \textbf{AABB-tree geometry queries} accelerate closest-point and intersection operations.
+\end{itemize}
+\vspace{0.12cm}
+{\small\bfseries Output:} Physical impact location, velocity and angle; unchanged
+streamtube-based collection efficiency and SLD corrections.
+\end{column}
+\hfill
+\begin{column}{0.55\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=2.64cm,keepaspectratio]{FIGURES/IBM/surfaceIntersection}\par
+\vspace{0.06cm}
+{\scriptsize\color{gray}Intersection of the droplet trajectory with the immersed surface.}\par
+\vspace{0.12cm}
+\includegraphics[width=0.85\linewidth,height=1.78cm,keepaspectratio]{FIGURES/IBM/CASE_CYLINDER_LAG_IBM_BETA}\par
+\vspace{0.02cm}
+{\scriptsize\color{gray}Cylinder verification: Lagrangian IBM vs. analytical $\beta$.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% 4. IBM LEVEL-SET COUPLING
+\begin{frame}[t]{IBM--Level-Set Icing Framework}
+\vspace{0.04cm}
+\small The \textbf{aerodynamic and droplet} fields use a nonconformal IBM background mesh;
+\textbf{geometry evolution} retains an adapted, body-fitted auxiliary mesh.
+\vspace{0.22cm}
+\begin{center}
+\begin{tikzpicture}[>=stealth,
+    every node/.style={align=center,font=\scriptsize,execute at begin node={\hyphenpenalty=10000}},
+    stage/.style={draw=champsBlue!35,fill=champsBlue!7,rounded corners=3pt,
+       minimum height=1.08cm,text width=2.55cm,inner sep=3pt}]
+  \node[stage] (flow) at (0,0) {\textbf{RANS + Droplets}\\IBM background mesh};
+  \node[stage] (thermo) at (3.25,0) {\textbf{Thermodynamics}\\Conformal ice surface};
+  \node[stage] (ls) at (6.50,0) {\textbf{3D Level Set}\\Adapted auxiliary mesh};
+  \node[stage] (geom) at (9.75,0) {\textbf{Ice Extraction}\\Updated immersed surface};
+  \draw[->,line width=0.8pt,champsBlue] (flow)--(thermo);
+  \draw[->,line width=0.8pt,champsBlue] (thermo)--(ls);
+  \draw[->,line width=0.8pt,champsBlue] (ls)--(geom);
+  \draw[->,line width=0.9pt,champsBlue] (geom.south) -- ++(0,-0.65) -| (flow.south);
+  \node[fill=white,text=champsBlue,font=\scriptsize] at (4.875,-1.70)
+  {Update signed distance and masks; recompute next layer};
+\end{tikzpicture}
+\end{center}
+\vspace{0.16cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+{\color{champsBlue}\bfseries Why Keep the Level-Set Mesh Body-Fitted?}\par
+\vspace{0.10cm}
+\small The auxiliary level-set mesh is easier to adapt than a RANS
+mesh, since no thin boundary-layer cells are required.
+\end{column}
+\hfill
+\begin{column}{0.48\textwidth}
+{\color{champsBlue}\bfseries Preserve the Clean Geometry}\par
+\vspace{0.10cm}
+\small Restrict evolution and reconstruction to the ice-growth region;
+retain unaffected geometry rather than moving the full interface.
+\end{column}
+\end{columns}
+\vfill
+\begin{center}
+\colorbox{champsBlue!7}{\parbox{0.92\textwidth}{\centering\small
+\vspace{0.08cm}\textbf{Avoid repeated body-fitted RANS remeshing, not all auxiliary meshing.}\vspace{0.08cm}}}
+\end{center}
+\end{frame}
+
+% 5. SLD NACA 23012
+\begin{frame}[t]{IBM Impingement Results: NACA 23012 (SLD)}
+\vspace{0.06cm}
+\begin{center}
+{\scriptsize\color{champsBlue}\bfseries
+$M_\infty=0.232$ \quad $\alpha=2.5^\circ$ \quad
+LWC $=0.50$ g/m$^3$ \quad MVD $=111\,\mu$m}
+\end{center}
+\vspace{0.06cm}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.49\textwidth}
+    \centering
+    {\color{champsBlue}\bfseries Eulerian}\par\vspace{0.08cm}
+    \includegraphics[width=\linewidth,height=4.43cm,keepaspectratio]{FIGURES/IBM/CASE_SLD_EULERIAN_BETA}
+  \end{column}
+  \hfill
+  \begin{column}{0.49\textwidth}
+    \centering
+    {\color{champsBlue}\bfseries Lagrangian}\par\vspace{0.08cm}
+    \FigOrPlaceholder{FIGURES/IBM/CASE_SLD_LAGRANGIAN_FROM_THESIS}{width=\linewidth,height=4.43cm,keepaspectratio}{4.0cm}
+  \end{column}
+\end{columns}
+\vspace{0.07cm}
+\begin{center}
+\colorbox{champsBlue!7}{\parbox{0.92\textwidth}{\centering\small
+\vspace{0.08cm}
+\textbf{BF and IBM agree closely} for both droplet formulations;
+SLD splashing corrections improve experimental agreement.
+\vspace{0.08cm}}}
+\end{center}
+\end{frame}
+
+% 6. NACA0012 RIME
+\begin{frame}[t]{IBM Ice Accretion Results: Rime (Case 01)}
+\vspace{0.07cm}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.61\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=5.10cm,keepaspectratio]{FIGURES/IBM/CASE_01_ICE_SHAPE}
+\end{column}
+\hfill
+\begin{column}{0.36\textwidth}
+{\color{champsBlue}\bfseries NACA 0012}\par
+\vspace{0.12cm}
+{\small
+\begin{tabular}{@{}ll@{}}
+$M_\infty$ & $0.325$\\[3pt]
+AoA & $4^\circ$\\[3pt]
+LWC & $0.60$ g/m$^3$\\[3pt]
+MVD & $20\,\mu$m\\[3pt]
+Icing time & $420$ s
+\end{tabular}\par
+}
+\vspace{0.29cm}
+{\color{champsBlue}\bfseries Main Observations}\par
+\vspace{0.08cm}
+\begin{itemize}\setlength{\itemsep}{5pt}
+  \item Close \textbf{BF--IBM agreement}.
+  \item Good agreement with experiments.
+  \item Five-layer prediction improves over single-step.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% 7. NACA0012 GLAZE / HTC
+\begin{frame}[t]{IBM Ice Accretion Results: Glaze (Case 04)}
+\vspace{0.06cm}
+\begin{center}
+{\scriptsize\color{champsBlue}\bfseries NACA 0012 \quad
+$M_\infty=0.317$ \quad AoA $=4^\circ$ \quad
+LWC $=0.55$ g/m$^3$ \quad MVD $=15\,\mu$m \quad 384 s}
+\end{center}
+\vspace{0.09cm}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.49\textwidth}
+    \centering {\color{champsBlue}\bfseries Convective Heat Transfer}\par\vspace{0.06cm}
+    \includegraphics[width=\linewidth,height=3.62cm,keepaspectratio]{FIGURES/IBM/CASE_04_HTC}
+  \end{column}
+  \hfill
+  \begin{column}{0.49\textwidth}
+    \centering {\color{champsBlue}\bfseries Five-Layer Ice Shape}\par\vspace{0.06cm}
+    \includegraphics[width=\linewidth,height=3.62cm,keepaspectratio]{FIGURES/IBM/CASE_04_ICE_SHAPE_05_LAYER}
+  \end{column}
+\end{columns}
+\vspace{0.08cm}
+\begin{center}
+\colorbox{champsBlue!7}{\parbox{0.93\textwidth}{\centering\small
+\vspace{0.08cm}
+Both reproduce glaze horns, but \textbf{near-wall HTC differences} accumulate
+across layers, especially around the lower horn.
+\vspace{0.08cm}}}
+\end{center}
+\vspace{-0.03cm}
+\begin{center}
+{\scriptsize\color{gray}Ongoing work in the laboratory: improve the IBM near-wall thermal treatment.}
+\end{center}
+\end{frame}
+

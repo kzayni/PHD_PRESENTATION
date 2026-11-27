@@ -49,146 +49,91 @@ Immersed Boundary Method}
 \vfill
 
 \begin{center}
-\colorbox{champsBlue!7}{%
-\parbox{0.92\textwidth}{%
-\centering
-\small\bfseries
-A robust numerical foundation for increasingly
-complex 3D multilayer ice-accretion simulations.
-}}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+\textbf{A robust numerical foundation for increasingly
+complex 3D multilayer ice-accretion simulations.}};
+\end{tikzpicture}
 \end{center}
 
 \end{frame}
 
 \begin{frame}{Current Limitations}
 
-\vspace{0.22cm}
+\vspace{0.15cm}
 
-{\color{champsBlue}\bfseries
-Physical Modeling}
+{\color{champsBlue}\bfseries Physical Modeling}
 
 \vspace{0.10cm}
-
 \begin{itemize}
-    \item Ice-shape accuracy remains sensitive to
-    aerodynamic, thermodynamic, and droplet predictions.
-    \item Glaze ice is particularly sensitive to
-    heat-transfer and surface-roughness modeling.
+    \item Improved roughness, ice-density, and near-wall
+    heat-transfer models are needed for more accurate
+    ice-shape predictions, especially for glaze cases.
 \end{itemize}
 
-\vspace{0.35cm}
+\vspace{0.30cm}
 
-{\color{champsBlue}\bfseries
-Lagrangian Computational Cost}
+{\color{champsBlue}\bfseries Lagrangian Resource Requirements}
 
 \vspace{0.10cm}
-
 \begin{itemize}
-    \item Converged 3D impingement fields may require
-    large numbers of trajectories.
-    \item Irregular workloads and memory access
-    complicate distributed-memory scalability.
+    \item Replication of aerodynamic mesh and flow data
+    increases per-node memory requirements and
+    limits applicability to very large meshes.
 \end{itemize}
 
-\vspace{0.35cm}
+\vspace{0.30cm}
 
-{\color{champsBlue}\bfseries
-Immersed Boundary Method}
+{\color{champsBlue}\bfseries Immersed Boundary Method}
 
 \vspace{0.10cm}
-
 \begin{itemize}
-    \item Absence of adaptive mesh refinement (AMR).
-    \item Large predefined refined regions may
-    increase computational cost.
-    \item Near-wall heat-transfer modeling
-    requires further improvement.
+    \item The absence of adaptive mesh refinement
+    requires large predefined refined regions,
+    increasing computational cost, and near-wall
+    heat-transfer predictions require further improvement.
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Future Perspectives}
 
-\vspace{0.20cm}
+\vspace{0.15cm}
 
-\begin{columns}[T,onlytextwidth]
+{\color{champsBlue}\bfseries Physical Modeling}
 
-% LEFT COLUMN
-\begin{column}{0.48\textwidth}
-
-{\color{champsBlue}\bfseries
-Physical Modeling}
-
-\vspace{0.12cm}
-
+\vspace{0.10cm}
 \begin{itemize}
-    \item Spatially and temporally varying
-    surface roughness.
-    \item Variable ice-density models.
-    \item Improved thermodynamic
-    and heat-transfer predictions.
+    \item Develop variable roughness and ice-density models, with improved heat-transfer predictions.
 \end{itemize}
 
-\vspace{0.35cm}
+\vspace{0.25cm}
 
-{\color{champsBlue}\bfseries
-Level-Set Geometry Evolution}
+{\color{champsBlue}\bfseries Lagrangian Droplet Tracking}
 
-\vspace{0.12cm}
-
+\vspace{0.10cm}
 \begin{itemize}
-    \item Accelerate MMG surface extraction
-    and improve mesh quality.
-    \item Investigate local ice-mass
-    conservation strategies.
+    \item Explore GPU acceleration with improved data locality and workload balancing.
 \end{itemize}
 
-\end{column}
+\vspace{0.25cm}
 
-% RIGHT COLUMN
-\begin{column}{0.48\textwidth}
+{\color{champsBlue}\bfseries Level-Set Geometry Evolution}
 
-{\color{champsBlue}\bfseries
-Immersed Boundary Method}
-
-\vspace{0.12cm}
-
+\vspace{0.10cm}
 \begin{itemize}
-    \item Adaptive mesh refinement
-    around the evolving ice interface.
-    \item Improved near-wall
-    heat-transfer treatment.
+    \item Accelerate surface extraction, improve mesh quality, and investigate local mass conservation.
 \end{itemize}
 
-\vspace{0.35cm}
+\vspace{0.25cm}
 
-{\color{champsBlue}\bfseries
-Lagrangian Droplet Tracking}
+{\color{champsBlue}\bfseries Immersed Boundary Method}
 
-\vspace{0.12cm}
-
+\vspace{0.10cm}
 \begin{itemize}
-    \item GPU acceleration for
-    large-scale 3D simulations.
-    \item Improved data locality
-    and workload balancing.
+    \item Incorporate adaptive mesh refinement and improve near-wall heat-transfer treatment.
 \end{itemize}
-
-\end{column}
-
-\end{columns}
-
-\vfill
-
-\begin{center}
-\colorbox{champsBlue!7}{%
-\parbox{0.92\textwidth}{%
-\centering
-\small\bfseries
-Toward more accurate, efficient, and automated
-3D multilayer ice-accretion simulations.
-}}
-\end{center}
 
 \end{frame}
 

@@ -8,26 +8,22 @@
 The droplet solver determines the \textbf{local water mass flux}
 reaching the aircraft surface.
 
-\vspace{0.24cm}
+\vspace{0.08cm}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.43\textwidth}
 {\color{champsBlue}\bfseries Collection Efficiency}
 
-\vspace{0.10cm}
+\vspace{0.04cm}
 \small
 The ratio of local impinging water flux to the
-freestream water flux:
-\[
-\beta = \frac{\dot m_{\mathrm{imp}}}
-              {\mathrm{LWC}\,U_\infty}
-\]
+freestream water flux:\par\vspace{0.05cm}
+{\centering$\displaystyle\beta = \frac{\dot m_{\mathrm{imp}}}{\mathrm{LWC}\,U_\infty}$\par}
 
-\vspace{0.03cm}
-{\color{champsBlue}\bfseries Water Mass Flux}
-\[
-\boxed{\dot m_{\mathrm{imp}}
-       = \beta\,\mathrm{LWC}\,U_\infty}
-\]
+\vspace{0.1cm}
+{\color{champsBlue}\bfseries Water Mass Flux}\par
+Accounting for the cloud liquid water content
+(LWC, in g/m$^3$):\par\vspace{0.05cm}
+{\centering$\boxed{\dot m_{\mathrm{imp}}=\beta\,\mathrm{LWC}\,U_\infty}$\par}
 \end{column}
 
 \begin{column}{0.54\textwidth}
@@ -38,27 +34,29 @@ freestream water flux:
     keepaspectratio
 ]{FIGURES/LAGRANGIAN/DROP_STREAM_TUBE}
 
-\vspace{0.06cm}
-{\small\color{champsBlue}\bfseries Lagrangian Streamtube}\par
 \vspace{0.05cm}
 {\small
 $\displaystyle\beta = \frac{A_\infty}{A_{\mathrm{imp}}}$
-\quad (before impact corrections)
 }
 \end{column}
 \end{columns}
 
+\vspace{0.04cm}
+{\color{champsBlue}\bfseries Droplet-Size Distribution}\par
+\vspace{0.03cm}
+{\small
+Either a single \textbf{Mean Volume Diameter (MVD)} or a \textbf{distribution} of bins simulated sequentially and weighted by their fraction of the total LWC.\par}
+
 \vfill
 \begin{center}
-\colorbox{champsBlue!7}{%
-  \parbox{0.93\textwidth}{%
-    \vspace{0.10cm}\centering\small
-    \textbf{Output to thermodynamics:}
-    $\dot m_{\mathrm{imp}}$ on the exposed aircraft surface.
-    \vspace{0.10cm}%
-  }%
-}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.90\textwidth, inner sep=3pt, align=center, font=\small] {%
+  \textbf{Output to thermodynamics:}
+  $\dot m_{\mathrm{imp}}$ on the exposed aircraft surface.};
+\end{tikzpicture}
 \end{center}
+\SlideRef{bourgault1999finite,bellosta2023lagrangian}
 \end{frame}
 
 \begin{frame}{Air--Droplet Coupling and Droplet Inertia}
@@ -175,16 +173,16 @@ from airflow streamlines.
 \vfill
 
 \begin{center}
-\colorbox{champsBlue!7}{%
-\parbox{0.9\textwidth}{%
-\centering
-\small
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.90\textwidth, inner sep=3pt, align=center, font=\small] {%
 \textbf{The aerodynamic solution drives
 droplet transport, while droplet inertia
-governs their response to the flow.}
-}}
+governs their response to the flow.}};
+\end{tikzpicture}
 \end{center}
 
+\SlideRef{clift2005bubbles}
 \end{frame}
 
 \begin{frame}{Droplet Impingement: Lagrangian vs. Eulerian}
@@ -194,44 +192,44 @@ governs their response to the flow.}
 \centering
 {\color{champsBlue}\bfseries\large Lagrangian}\par
 \vspace{0.10cm}
-\includegraphics[width=0.98\linewidth,height=0.44\textheight,keepaspectratio]{FIGURES/LAGRANGIAN/DROP_SOLUTION.png}
+\parbox[c][0.46\textheight][c]{\linewidth}{\centering{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}\fbox{\includegraphics[width=0.96\linewidth,height=0.44\textheight,keepaspectratio]{FIGURES/LAGRANGIAN/DROP_SOLUTION.png}}}}
 
 \vspace{0.10cm}
 {\small
 \textbf{Particle-based:}
 $\mathbf{x}_d(t)$, $\mathbf{u}_d(t)$\par
 Individual trajectories integrated through the flow.
-}
-\vspace{-0.15cm}
+\par}
+\vspace{0.12cm}
 {\scriptsize
-\begin{align*}
+{\color{champsBlue}\textbf{ODEs:}}\quad$\left\{\begin{aligned}
 \dot{\mathbf{x}}_d&=\mathbf{u}_d\\[-1pt]
 \dot{\mathbf{u}}_d&=F(\mathbf{u}_a-\mathbf{u}_d)+\mathbf{g}
-\end{align*}}
+\end{aligned}\right.$\par}
 \end{column}
 
 \begin{column}{0.48\textwidth}
 \centering
 {\color{champsBlue}\bfseries\large Eulerian}\par
 \vspace{0.10cm}
-\includegraphics[
-    width=0.98\linewidth,
+\parbox[c][0.46\textheight][c]{\linewidth}{\centering{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}\fbox{\includegraphics[
+    width=0.96\linewidth,
     height=0.44\textheight,
     keepaspectratio
-]{FIGURES/LAGRANGIAN/DropletVolumeFraction.png}
+]{FIGURES/LAGRANGIAN/DropletVolumeFraction.png}}}}
 
 \vspace{0.10cm}
 {\small
 \textbf{Field-based:}
 $\alpha(\mathbf{x})$, $\mathbf{u}_d(\mathbf{x})$\par
 Continuum equations on the computational mesh.
-}
-\vspace{-0.15cm}
+\par}
+\vspace{0.12cm}
 {\scriptsize
-\begin{align*}
+{\color{champsBlue}\textbf{PDEs:}}\quad$\left\{\begin{aligned}
 \partial_t\alpha+\nabla\cdot(\alpha\mathbf{u}_d)&=0\\[-1pt]
 \partial_t\mathbf{u}_d+(\mathbf{u}_d\cdot\nabla)\mathbf{u}_d&=F(\mathbf{u}_a-\mathbf{u}_d)+\mathbf{g}
-\end{align*}}
+\end{aligned}\right.$\par}
 \end{column}
 \end{columns}
 
@@ -248,10 +246,11 @@ Continuum equations on the computational mesh.
 \colorbox{champsBlue!7}{%
 \parbox{0.94\linewidth}{\vspace{0.09cm}\centering\scriptsize
 \textbf{Advantage:} regular, scalable field solution.\\[1pt]
-\textbf{Trade-off:} detailed SLD physics needs extra models.
+\textbf{Trade-off:} numerical dissipation, spurious oscillations.
 \vspace{0.09cm}}}
 \end{column}
 \end{columns}
+\SlideRef{bourgault1999finite,bellosta2023lagrangian}
 \end{frame}
 
 % ---------------------------------------------------------------------------
@@ -259,8 +258,11 @@ Continuum equations on the computational mesh.
 % ---------------------------------------------------------------------------
 \providecommand{\LDIhead}[1]{{\color{champsBlue}\bfseries #1}}
 \providecommand{\LDIbottom}[1]{%
-  \begin{center}\setlength{\fboxsep}{5pt}%
-  \colorbox{champsBlue!7}{\parbox{0.93\textwidth}{\centering\small #1}}%
+  \begin{center}%
+  \begin{tikzpicture}
+  \node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+        text width=0.90\textwidth, inner sep=3pt, align=center, font=\small] {#1};
+  \end{tikzpicture}%
   \end{center}}
 
 % 1 / 8 --------------------------------------------------------------
@@ -274,63 +276,44 @@ where they contribute to surface impingement.
     \centering
     \LDIhead{Optional: Eulerian-Guided Initialization}\par
     \vspace{0.10cm}
-    \includegraphics[width=0.97\linewidth,height=2.62cm,keepaspectratio]{FIGURES/LAGRANGIAN/seedingPlane-eps-converted-to.pdf}\par
+    \includegraphics[width=0.97\linewidth,height=2.6cm,keepaspectratio,trim=0 0 210 0,clip]{FIGURES/LAGRANGIAN/seedingPlane-eps-converted-to.pdf}\par
     \vspace{0.02cm}
-    {\small Backtrack Eulerian droplet velocities from the surface to identify the initial upstream seeding region.\par}
+    {\small Backtrack using Eulerian droplet velocities from the surface to identify the initial upstream seeding region.\par}
   \end{column}
   \begin{column}{0.485\textwidth}
     \centering
     \LDIhead{Main Enhancement: Adaptive Refinement}\par
     \vspace{0.10cm}
-    \includegraphics[width=0.97\linewidth,height=2.62cm,keepaspectratio]{FIGURES/LAGRANGIAN/AMR_seeding_grid.png}\par
+    \includegraphics[width=0.97\linewidth]{FIGURES/LAGRANGIAN/seeding_grid_overview.png}\par
+    \vspace{0.06cm}
+    {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}\fbox{\includegraphics[height=1.55cm]{FIGURES/LAGRANGIAN/seeding_grid_zoom.png}}}\par
     \vspace{0.02cm}
     {\small Refine seeding cells associated with impacting trajectories; reuse previously computed droplets.\par}
   \end{column}
 \end{columns}
 \vfill
-\LDIbottom{\textbf{Goal:} converged collection efficiency with far fewer unnecessary trajectories.}
+\LDIbottom{\textbf{Goal:} converged collection efficiency with far fewer unnecessary trajectories.\\[2pt]\textbf{Example:} from 10k to 262k seeding nodes (vs.\ 2.5M uniform): \textcolor{green!50!black}{\textbf{$\approx$90\% fewer droplets}}}
+\SlideRef{ZAYNI2026112019}
 \end{frame}
 
 % 2 / 8 --------------------------------------------------------------
-\begin{frame}[t]{Adaptive Seeding: Convergence-Driven Refinement}
-\vspace{0.10cm}
-\begin{columns}[T,onlytextwidth]
-  \begin{column}{0.49\textwidth}
-    \LDIhead{Global Convergence (Thesis)}\par
-    \vspace{0.10cm}
-    \begin{itemize}\small\setlength\itemsep{0.09cm}
-      \item Generate and track a coarse initial cloud.
-      \item Refine only seeding cells linked to surface impacts.
-      \item Monitor change in \textbf{integrated collection efficiency} between refinement passes.
-      \item Stop once the prescribed global tolerance is reached.
-    \end{itemize}
-    \vspace{0.09cm}
-    {\small\color{champsBlue}Previously computed trajectories are cached and reused.}
-  \end{column}
-  \begin{column}{0.49\textwidth}
-    \LDIhead{Local Convergence (Recent Exploration)}\par
-    \vspace{0.07cm}
-    \begin{center}
-    \begin{tikzpicture}[x=0.78cm,y=0.73cm, every node/.style={font=\scriptsize}]
-      \draw[step=0.75cm,gray!45,thin] (0,0) grid (4.5,3);
-      \fill[green!22] (0.75,0.75) rectangle (2.25,2.25);
-      \fill[green!22] (3,1.5) rectangle (4.5,3);
-      \fill[champsBlue!22] (2.25,0) rectangle (3.75,1.5);
-      \draw[step=0.75cm,gray!55,thin] (0,0) grid (4.5,3);
-      \draw[green!55!black,line width=0.8pt] (0.75,0.75) rectangle (2.25,2.25);
-      \draw[blue!60!black,line width=0.8pt] (2.25,0) rectangle (3.75,1.5);
-    \end{tikzpicture}
-    \end{center}
-    \vspace{-0.05cm}
-    \begin{itemize}\small\setlength\itemsep{0.06cm}
-      \item Monitor \(\beta\) convergence \textbf{on each surface face}.
-      \item Identify seeding cells responsible for converged faces.
-      \item Disable their further refinement; retain refinement elsewhere.
-    \end{itemize}
-  \end{column}
-\end{columns}
-\vfill
-\LDIbottom{Refine only where collection efficiency has not yet converged.}
+\begin{frame}{Adaptive Seeding: Convergence-Driven Refinement}
+\LDIhead{Global Convergence}\par
+\vspace{0.15cm}
+\begin{itemize}\setlength\itemsep{0.12cm}
+  \item Generate and track a coarse initial cloud.
+  \item Refine only seeding cells linked to surface impacts.
+  \item Monitor change in \textbf{integrated collection efficiency} between refinement passes.
+  \item Stop once the prescribed global tolerance is reached.
+\end{itemize}
+\vspace{0.25cm}
+\textbf{Stopping criterion} (successive passes $k-1$, $k$):\par
+\vspace{0.25cm}
+{\centering
+  $\displaystyle\left|\int_S \beta^{(k)}\,dS-\int_S \beta^{(k-1)}\,dS\right| < 10^{-5}$\par}
+\vspace{0.3cm}
+{\color{champsBlue}Previously computed trajectories are cached and reused.}
+\SlideRef{ZAYNI2026112019}
 \end{frame}
 
 % 3 / 8 --------------------------------------------------------------
@@ -344,30 +327,36 @@ where they contribute to surface impingement.
     {\small Successive \textbf{ray--face intersections} identify the next cell through mesh connectivity.\par}
   \end{column}
   \begin{column}{0.51\textwidth}
-    \LDIhead{Equations of Motion}\par
-    \vspace{-0.14cm}
-    \begin{align*}
-     \frac{d\mathbf{u}_d}{dt}&=F(\mathbf{u}_a-\mathbf{u}_d)+\mathbf{g}\\[-1pt]
-     \frac{d\mathbf{x}_d}{dt}&=\mathbf{u}_d
-    \end{align*}
     \LDIhead{Numerical Integration}\par
     \vspace{0.05cm}
     \begin{itemize}\small\setlength\itemsep{0.08cm}
-      \item \textbf{Variable-step BDF2} for droplet velocity.
-      \item Local residence time set by the \textbf{next crossed face}.
-      \item Iterative update of velocity, crossing position, and time step.
+      \item \textbf{Iterative BDF2} for droplet velocity.
+      \item Time step set by the \textbf{local residence time inside the cell}.
+      \item Droplet position localization through \textbf{facet intersections}.
       \item Direct identification of surface impact faces.
     \end{itemize}
+    \vspace{0.15cm}
+    {\centering
+    $\boxed{\displaystyle\mathbf{u}_d^n=\frac{F\mathbf{u}_a-b\,\mathbf{u}_d^{n-1}-c\,\mathbf{u}_d^{n-2}+\mathbf{g}}{a+F}}$\par
+    \vspace{0.12cm}
+    {\scriptsize
+    $\begin{aligned}
+    a&=\frac{2\Delta t_c+\Delta t_{c-1}}{(\Delta t_c+\Delta t_{c-1})\Delta t_c}, &
+    b&=-\frac{\Delta t_c+\Delta t_{c-1}}{\Delta t_c\Delta t_{c-1}},\\[0.1cm]
+    c&=\frac{\Delta t_c}{(\Delta t_c+\Delta t_{c-1})\Delta t_{c-1}}, &
+    F&=\frac{3C_D\rho_a\left\|\mathbf{u}_a-\mathbf{u}_d\right\|}{4\rho_d D}
+    \end{aligned}$\par}
+    }
   \end{column}
 \end{columns}
 \vfill
-\LDIbottom{Face crossings provide both cell localization and the local integration time step.}
+\SlideRef{ZAYNI2026112019,li2019fast,hairer1996}
 \end{frame}
 
 % 4 / 8 --------------------------------------------------------------
 \begin{frame}[t]{Ray--Face Intersections: Triangles vs. Quadrilaterals}
 \vspace{0.06cm}
-\begin{columns}[T,onlytextwidth]
+\begin{columns}[c,onlytextwidth]
   \begin{column}{0.46\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth,height=3.25cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_2p1_MESH_CUT.png}\par
@@ -389,11 +378,12 @@ where they contribute to surface impingement.
     \vspace{0.10cm}
     \[\mathbf p(u,v)=(1-v)\mathbf P_a(u)+v\mathbf P_b(u)\]
     \vspace{-0.08cm}
-    {\footnotesize\color{gray}Find \((t,u,v)\) such that \(\mathbf O+t\mathbf D=\mathbf p(u,v)\).}
+    {\centering\footnotesize Find \((t,u,v)\) such that \(\mathbf O+t\mathbf D=\mathbf p(u,v)\).\\[1pt]$\Rightarrow$ leads to a \textbf{quadratic equation}, solved by Ramsey et al.\par}
   \end{column}
 \end{columns}
 \vfill
 \LDIbottom{Repeated face intersections make the ray--facet algorithm a computational bottleneck.}
+\SlideRef{ZAYNI2026112019}
 \end{frame}
 
 % 5 / 8 --------------------------------------------------------------
@@ -426,44 +416,87 @@ where they contribute to surface impingement.
  \begin{tabular}{lcc}
   & \textbf{vs. two triangles} & \textbf{vs. Ramsey} \\
   Ramsey bilinear patch & 51.3\% & -- \\
-  \textbf{GARP bilinear patch} & \textbf{58.2\%} & \textbf{14.2\%} \\
+  \rowcolor{green!18}\textbf{GARP bilinear patch} & \textbf{58.2\%} & \textbf{14.2\%} \\
  \end{tabular}
 \end{center}
+\SlideRef{ZAYNI2026112019}
 \end{frame}
 
 % 6 / 8 --------------------------------------------------------------
 \begin{frame}[t]{Parallel Lagrangian Tracking: Data Locality and Load Balance}
+
 \vspace{0.08cm}
-{\small\textbf{Execution strategy:} Chapel multi-locale distributed memory + parallel droplet tracking within each locale (analogous to a hybrid distributed/shared-memory model).}\par
-\vspace{0.08cm}
+
+{\small
+Droplets are \textbf{initially distributed} among
+the available computational resources.
+Essential tracking data are \textbf{replicated across locales}
+to minimize inter-node communication.
+}
+
+\vspace{0.05cm}
+
 \begin{center}
 \begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
-  \node[draw=champsBlue,fill=champsBlue!6,rounded corners=3pt,text width=5cm,align=center,minimum height=0.55cm] (source) at (0,1.75) {Aerodynamic mesh + flow solution};
-  \foreach \i/\xx in {1/-3.55,2/0,3/3.55}{
-   \node[draw=champsBlue!65,fill=champsBlue!4,rounded corners=3pt,align=center,text width=2.75cm,minimum height=1.05cm] (node\i) at (\xx,0.02) {\textbf{Locale \i}\\Replica: tracking mesh + flow\\Local subset of droplets};
-   \draw[->,champsBlue!75,thick] (source.south) -- (node\i.north);
-  }
+
+% Global aerodynamic solution
+\node[
+    draw=champsBlue,
+    fill=champsBlue!7,
+    rounded corners=3pt,
+    text width=7.6cm,
+    align=center,
+    minimum height=0.60cm
+] (source) at (0,1.85)
+{Distributed Aerodynamic Mesh + Flow Solution};
+
+% Computational locales
+\foreach \i/\xx in {1/-3.55,2/0,3/3.55}{
+
+    \node[
+        draw=champsBlue!65,
+        fill=champsBlue!4,
+        rounded corners=3pt,
+        align=center,
+        text width=2.85cm,
+        minimum height=1.65cm
+    ] (node\i) at (\xx,-0.15) {
+        {\color{champsBlue}\bfseries Locale \i}\\[0.12cm]
+        Local flow partition\\
+        Other locales' data\\[0.08cm]
+        \textbf{Assigned droplets}
+    };
+
+    \draw[->,champsBlue!75,thick]
+        (source.south) -- (node\i.north);
+}
+
 \end{tikzpicture}
 \end{center}
-\vspace{0.09cm}
+
+\vspace{0.02cm}
+
 \begin{columns}[T,onlytextwidth]
   \begin{column}{0.48\textwidth}
     \LDIhead{Work Distribution}\par
-    {\small \textbf{LPT scheduling}: assign expensive trajectories first; refine runtime estimates between passes.}\par
+    {\small \textbf{Longest Processing Time (LPT) scheduling}: assign expensive trajectories first; refine runtime estimates between adaptive seeding passes.}\par
   \end{column}
   \begin{column}{0.48\textwidth}
-    \LDIhead{Efficiency and Trade-Off}\par
-    {\small Avoid remote flow/mesh reads during tracking; \textbf{replication increases per-node memory usage}.}\par
+    \LDIhead{Data Locality}\par
+    {\small Local access to flow and mesh information avoids remote reads at the cost of \textbf{increased memory usage}.}\par
   \end{column}
 \end{columns}
+
 \vfill
-\LDIbottom{Balance primary and auxiliary droplets separately; reuse previous trajectories.}
+
+\SlideRef{ZAYNI2026112019,parenteau,BALDAN2023105856}
+
 \end{frame}
 
 % Scalability -------------------------------------------------------
 \begin{frame}{Lagrangian Solver: Parallel Scalability}
 
-\vspace{0.10cm}
+\vspace{-0.05cm}
 
 \begin{columns}[T,onlytextwidth]
 
@@ -473,11 +506,11 @@ where they contribute to surface impingement.
 
 {\color{champsBlue}\bfseries Speedup}
 
-\vspace{0.12cm}
+\vspace{0.05cm}
 
 \includegraphics[
     width=\linewidth,
-    height=0.49\textheight,
+    height=0.56\textheight,
     keepaspectratio
 ]{FIGURES/LAGRANGIAN/SpeedUp}
 
@@ -489,11 +522,11 @@ where they contribute to surface impingement.
 
 {\color{champsBlue}\bfseries Parallel Efficiency}
 
-\vspace{0.12cm}
+\vspace{0.05cm}
 
 \includegraphics[
     width=\linewidth,
-    height=0.49\textheight,
+    height=0.56\textheight,
     keepaspectratio
 ]{FIGURES/LAGRANGIAN/Efficiency}
 
@@ -504,36 +537,28 @@ where they contribute to surface impingement.
 \vspace{0.05cm}
 
 \begin{center}
-{\small
+{\scriptsize
 \textbf{Benchmark:} IPW2 Case 1.3
 \quad $\vert$ \quad
 12.8 million droplets
 \quad $\vert$ \quad
-384--3072 cores
+384--3072 cores (2--16 nodes)\\[1pt]
+\textbf{Trillium:} 2 $\times$ AMD EPYC 9655 per node (192 cores/node)
 }
 \end{center}
 
 \vspace{-0.1cm}
 
 \begin{center}
-\colorbox{champsBlue!7}{%
-\parbox{0.91\textwidth}{%
-\centering
-\vspace{0.10cm}
-\textbf{\color{champsBlue}
-$7.53\times$ speedup and $94\%$ efficiency
-at 3072 cores (16 nodes).}
-
-\vspace{0.08cm}
-
-{\small
-Good strong-scaling performance
-on distributed-memory HPC systems.
-}
-\vspace{0.10cm}
-}}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+\textbf{\color{champsBlue}$7.53\times$ speedup and $94\%$ efficiency at 3072 cores (16 nodes).}\\[1pt]
+Good strong-scaling performance on distributed-memory HPC systems.};
+\end{tikzpicture}
 \end{center}
 
+\SlideRef{ZAYNI2026112019}
 \end{frame}
 
 % 7 / 8 --------------------------------------------------------------
@@ -544,26 +569,134 @@ on distributed-memory HPC systems.
     \centering
     \LDIhead{Pre-Impact: Deformation}\par
     \vspace{0.08cm}
-    \includegraphics[width=0.94\linewidth,height=2.42cm,keepaspectratio]{FIGURES/LAGRANGIAN/DROPLET_DEFORMATION.jpg}\par
+    \includegraphics[width=\linewidth,height=3.9cm,keepaspectratio]{FIGURES/LAGRANGIAN/DROPLET_DEFORMATION.jpg}\par
     \vspace{0.08cm}
     {\small\textbf{Second-order effect:} changes effective drag, hence velocity and trajectory.\par}
-    \vspace{-0.12cm}
-    \[\scriptstyle C_D=(1-f)C_{D,\mathrm{sphere}}+fC_{D,\mathrm{disk}}\]
+    \vspace{0.12cm}
+    \tikz\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=0.3cm, inner ysep=0.12cm, font=\small]{$C_D=(1-f)C_{D,\mathrm{sphere}}+fC_{D,\mathrm{disk}}$};\par
   \end{column}
   \begin{column}{0.48\textwidth}
     \centering
     \LDIhead{At Impact: Splashing}\par
     \vspace{0.08cm}
-    \includegraphics[width=0.94\linewidth,height=2.42cm,keepaspectratio]{FIGURES/LAGRANGIAN/DROPLET_SPLASHING.png}\par
+    \includegraphics[width=\linewidth,height=3.9cm,keepaspectratio]{FIGURES/LAGRANGIAN/DROPLET_SPLASHING.png}\par
     \vspace{0.08cm}
     {\small\textbf{First-order effect:} a semi-empirical impact model predicts how much water is retained.\par}
-    \vspace{-0.12cm}
-    \[\scriptstyle \beta_{\mathrm{retained}}=(1-f_m)\beta_0\]
+    \vspace{0.12cm}
+    \tikz\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=0.3cm, inner ysep=0.12cm, font=\small]{$\beta_{\mathrm{retained}}=(1-f_m)\beta_0$};\par
   \end{column}
 \end{columns}
 \vfill
-\LDIbottom{SLD impact outcomes depend on impact velocity and angle; a droplet may stick, splash, or rebound.}
+\SlideRef{wright2004semi,trontin2016revisited,honsek2006fensap}
 \end{frame}
+
+% ---------------------------------------------------------
+% SLD splashing models: Wright vs ONERA
+% ---------------------------------------------------------
+\begin{frame}{SLD Modeling: Wright vs. ONERA}
+
+\vspace{-0.1cm}
+
+{\small
+Semi-empirical models account for droplet splashing
+and the fraction of water retained after impact.
+}
+
+\vspace{0.1cm}
+
+\begin{columns}[T,onlytextwidth]
+
+% WRIGHT
+\begin{column}{0.48\textwidth}
+
+{\color{champsBlue}\bfseries
+Wright et al.}
+
+\vspace{0.08cm}
+
+{\small Mass-loss coefficient:}
+
+{\small\vspace{-0.25cm}
+\[
+\begin{aligned}
+f_m &= 0.7(1-\sin\theta_0)\\
+&\quad\times
+\left[1-\exp\left(-0.0092(K_M-200)\right)\right]
+\end{aligned}
+\]}
+
+\vspace{-0.12cm}
+
+{\scriptsize
+Splashing criterion: $K_M>200$,
+$\theta_0<\pi/2$, with\par\vspace{0.03cm}
+{\centering$K_M=\dfrac{0.859\,K^{1/2}\left(\rho_w/\mathrm{LWC}\right)^{1/8}}{\sin^{5/4}(\theta_0)}$,\quad $K=Oh\,Re_d^{5/4}$\par}
+}
+
+\end{column}
+
+% ONERA / TRONTIN
+\begin{column}{0.48\textwidth}
+
+{\color{champsBlue}\bfseries
+ONERA -- Trontin et al.}
+
+\vspace{0.08cm}
+
+{\small Mass-loss coefficient:}
+
+{\small\vspace{-0.25cm}
+\[
+f_m =
+1-
+g\left(\frac{\theta}{\theta_c}\right)
+f\left(\frac{K_c-K_0}{K_0}\right)
+\]}
+
+\vspace{0.05cm}
+
+{\scriptsize
+Splashing criterion:
+$K_c=We\,Oh^{-2/5}>K_0=657$.
+}
+
+\end{column}
+
+\end{columns}
+
+\vspace{0.08cm}
+
+\hrule
+
+\vspace{0.08cm}
+
+{\color{champsBlue}\bfseries
+Wright: Secondary-Droplet Reinjection}
+
+\vspace{0.04cm}
+{\centering\small
+$u_{n,\mathrm{post}}=u_{n,\mathrm{imp}}\left(1.075-0.0025\,\alpha_{\mathrm{imp}}\right),\qquad
+u_{t,\mathrm{post}}=u_{t,\mathrm{imp}}\left(0.300-0.0020\,\alpha_{\mathrm{imp}}\right),$\\[0.08cm]
+$D_{\mathrm{new}}=D\,\exp(-0.0281K_M)$\par}
+
+\vspace{0.04cm}
+
+{\scriptsize
+The ejected mass is represented by a secondary-droplet
+parcel, tracked until domain exit or reimpingement.
+}
+
+\vfill
+
+\LDIbottom{\textbf{Collection-efficiency correction:}
+\mbox{$\beta_{\mathrm{retained}}=(1-f_m)\,\beta_0$}\\(Wright: secondary reimpingement can also be added).}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=south west,font=\tiny,text=gray,inner sep=0pt]
+      at ([xshift=0.1cm,yshift=0.27cm]current page.south west)
+      {\cite{wright2004semi,trontin2016revisited}\qquad $We=\frac{\rho_w U_d^2 D}{\sigma_w},\quad Oh=\frac{\mu_w}{\sqrt{\rho_w\sigma_w D}}$};
+\end{tikzpicture}
+\end{frame}
+
 
 % 8 / 8 --------------------------------------------------------------
 \begin{frame}[t]{SLD: Secondary-Droplet Reimpingement}
@@ -586,14 +719,18 @@ on distributed-memory HPC systems.
     \end{enumerate}
   \end{column}
 \end{columns}
-\vspace{0.16cm}
+\vfill
 \begin{center}
-\colorbox{champsBlue!7}{\parbox{0.88\textwidth}{\centering
-  \(\displaystyle\beta_{\mathrm{final}}=(1-f_m)\beta_0+\sum_j\beta_{\mathrm{reimp},j}\)
-}}
+\begin{tikzpicture}
+\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=0.4cm, inner ysep=0.05cm]{%
+$\begin{aligned}
+\beta_{\mathrm{reimp}}&=\frac{m_{\mathrm{sd}}(\mathbf{u}_{\mathrm{sd}}\cdot\mathbf{n})/A_s}{m_\infty U_\infty/A_\infty}\\[0.15cm]
+\beta_{\mathrm{final}}&=(1-f_m)\beta_0+\sum_{\mathrm{reimp}}\beta_{\mathrm{reimp}}
+\end{aligned}$};
+\end{tikzpicture}
 \end{center}
-\vspace{-0.05cm}
-{\small\color{gray}Reimpingement can extend water collection beyond the primary impingement limits.}
+\vfill
+\SlideRef{wright2004semi,trontin2016revisited}
 \end{frame}
 
 % ---------------------------------------------------------------------------
@@ -601,7 +738,8 @@ on distributed-memory HPC systems.
 % ---------------------------------------------------------------------------
 % #1: geometric description, #2: Mach, #3: alpha, #4: T_inf,
 % #5: Re, #6: MVD, #7: c_ref
-\providecommand{\LDIResultCaseHeader}[7]{%
+\providecommand{\LDIResultCaseHeader}[8][]{%
+\if\relax\detokenize{#1}\relax
 \begin{columns}[T,onlytextwidth]
   \begin{column}{0.30\textwidth}
     {\color{champsBlue}\bfseries\scriptsize GEOMETRY}\vspace{0.05cm}
@@ -609,66 +747,127 @@ on distributed-memory HPC systems.
       \parbox[c][1.17cm][c]{0.94\linewidth}{%
         \centering\scriptsize\color{champsBlue!70!black}
         Geometry figure\\[0.04cm]
-        \textbf{#1}
+        \textbf{#2}
       }%
     }
   \end{column}
   \begin{column}{0.67\textwidth}
-    {\color{champsBlue}\bfseries\scriptsize CASE PARAMETERS}\vspace{0.08cm}
-    \begin{minipage}[t]{\linewidth}
-    \small
-    \begin{tabular}{@{}lll@{}}
-      $M_\infty=#2$ & $\alpha=#3^\circ$ & $T_\infty=#4\,\mathrm{K}$\\[0.08cm]
-      $Re=#5$ & $\mathrm{MVD}=#6\,\mu\mathrm{m}$ & $c_\mathrm{ref}=#7\,\mathrm{in}$
-    \end{tabular}
-    \end{minipage}
+    {\color{champsBlue}\bfseries\scriptsize CASE PARAMETERS}\par
+    \vspace{0.12cm}
+    {\centering\small\color{champsBlue}\bfseries
+    $\bm{M_\infty=#3}$ \quad \textbf{AoA} $\bm{=#4^\circ}$ \if\relax\detokenize{#5}\relax\else\quad $T_\infty=#5$ K\fi\\[0.1cm]
+    $\bm{Re=#6}$ \quad MVD $=#7\,\mu$m \quad $\bm{c_\mathrm{ref}=#8}$ m\par}
   \end{column}
 \end{columns}
+\else
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.40\textwidth}
+    {\color{champsBlue}\bfseries\scriptsize GEOMETRY}\vspace{0.05cm}
+    \fcolorbox{champsBlue!24}{champsBlue!3}{%
+      \parbox[c][1.0cm][c]{0.96\linewidth}{%
+        \centering\scriptsize\color{champsBlue!70!black}
+        \includegraphics[width=\linewidth,height=0.62cm,keepaspectratio]{#1}\\[0.04cm]
+        \textbf{#2}
+      }%
+    }
+  \end{column}
+  \begin{column}{0.57\textwidth}
+    {\color{champsBlue}\bfseries\scriptsize CASE PARAMETERS}\par
+    \vspace{0.12cm}
+    {\centering\small\color{champsBlue}\bfseries
+    $\bm{M_\infty=#3}$ \quad \textbf{AoA} $\bm{=#4^\circ}$\\[0.1cm]
+    $\bm{Re=#6}$ \quad MVD $=#7\,\mu$m \quad $\bm{c_\mathrm{ref}=#8}$ m\if\relax\detokenize{#5}\relax\else\quad $T_\infty=#5$ K\fi\par}
+  \end{column}
+\end{columns}
+\fi
 \vspace{0.05cm}
 \endgraf
 {\color{champsBlue!20}\rule{\textwidth}{0.5pt}}
 \vspace{-0.1cm}
 }
 
+\providecommand{\HtailSide}{%
+  {\color{champsBlue}\bfseries\scriptsize GEOMETRY}\par\vspace{0.05cm}
+  \fcolorbox{champsBlue!24}{champsBlue!3}{%
+    \parbox[c][1.25cm][c]{0.94\linewidth}{\centering\scriptsize\color{champsBlue!70!black}
+      \includegraphics[width=\linewidth,height=0.85cm,keepaspectratio]{FIGURES/LAGRANGIAN/HTAIL_HORIZONTAL.png}\\[0.04cm]
+      \textbf{NACA 64A008 H-tail}}}\par
+  \vspace{0.3cm}
+  {\color{champsBlue}\bfseries\scriptsize CASE PARAMETERS}\par\vspace{0.1cm}
+  {\centering\small\color{champsBlue}\bfseries
+  $\bm{M_\infty=0.23}$ \quad \textbf{AoA} $\bm{=6^\circ}$\\[0.1cm]
+  $\bm{Re=5.0\times10^6}$\\[0.1cm]
+  MVD $=92\,\mu$m \quad $\bm{c_\mathrm{ref}=0.956}$ m\par}}
+
 \begin{frame}{IPW1-112: Eulerian vs. Lagrangian Results}
-\LDIResultCaseHeader{NACA 64A008 H-tail}{0.23}{6}{280}{5.0\times 10^6}{92}{37.65}
-\vspace{-0.2cm}\begin{center}
-  \includegraphics[width=0.81\textwidth,height=4.0cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_112_DISTRIBUTION}
-\end{center}
-\vfill
-{\centering\small\color{champsBlue}\bfseries
-Excellent Eulerian--Lagrangian agreement, but not yet with experiments.\par}
-\end{frame}
-
-\begin{frame}{IPW1-112: Effect of SLD Models}
-\LDIResultCaseHeader{NACA 64A008 H-tail}{0.23}{6}{280}{5.0\times 10^6}{92}{37.65}
-\vspace{-0.2cm}\begin{center}
-  \includegraphics[width=0.81\textwidth,height=4.0cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_112_SLD}
-\end{center}
-\vfill
-{\centering\small\color{champsBlue}\bfseries
-SLD corrections improve agreement; Trontin improves the stagnation peak.\par}
-\end{frame}
-
-\begin{frame}{IPW1-122: SLD Impingement on a Multi-Element Airfoil}
-\LDIResultCaseHeader{Slat / main / flap}{0.23}{4}{278}{4.8\times 10^6}{92}{36.0}
-\begin{columns}[T,onlytextwidth]
-  \begin{column}{0.32\textwidth}
-    \centering{\color{champsBlue}\bfseries\scriptsize SLAT}\par\vspace{0.05cm}
-    \includegraphics[width=\linewidth,height=3.6cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_SLD}
+\begin{columns}[c,onlytextwidth]
+  \begin{column}{0.33\textwidth}
+    \HtailSide
   \end{column}
-  \begin{column}{0.32\textwidth}
-    \centering{\color{champsBlue}\bfseries\scriptsize MAIN}\par\vspace{0.05cm}
-    \includegraphics[width=\linewidth,height=3.6cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_MAIN}
-  \end{column}
-  \begin{column}{0.32\textwidth}
-    \centering{\color{champsBlue}\bfseries\scriptsize FLAP}\par\vspace{0.05cm}
-    \includegraphics[width=\linewidth,height=3.6cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_FLAP}
+  \begin{column}{0.66\textwidth}\centering
+    \includegraphics[width=\linewidth,height=6.3cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_112_DISTRIBUTION}
   \end{column}
 \end{columns}
 \vfill
-{\centering\small\color{champsBlue}\bfseries
-Reimpingement improves the flap peak, but downstream-element discrepancies remain.\par}
+\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+Excellent Eulerian--Lagrangian agreement, but not yet with experiments.};
+\end{tikzpicture}
+\end{center}
+\SlideRef{laurendeau2022summary,papadakis2007large}
+\end{frame}
+
+\begin{frame}{IPW1-112: Effect of SLD Models}
+\begin{columns}[c,onlytextwidth]
+  \begin{column}{0.33\textwidth}
+    \HtailSide
+  \end{column}
+  \begin{column}{0.66\textwidth}\centering
+    \includegraphics[width=\linewidth,height=6.3cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_112_SLD}
+  \end{column}
+\end{columns}
+\vfill
+\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+SLD corrections improve agreement.};
+\end{tikzpicture}
+\end{center}
+\SlideRef{laurendeau2022summary,papadakis2007large}
+\end{frame}
+
+\begin{frame}{IPW1-122: SLD Impingement on a Multi-Element Airfoil}
+\LDIResultCaseHeader[FIGURES/LAGRANGIAN/MDA_GEOMETRY.png]{Slat / main / flap}{0.23}{4}{}{4.8\times 10^6}{92}{0.914}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.29\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=3.3cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_SLD}\par\vspace{0.03cm}
+    {\color{champsBlue}\bfseries\scriptsize SLAT}
+  \end{column}
+  \begin{column}{0.29\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=3.3cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_MAIN}\par\vspace{0.03cm}
+    {\color{champsBlue}\bfseries\scriptsize MAIN}
+  \end{column}
+  \begin{column}{0.29\textwidth}
+    \centering
+    \makebox[\linewidth][l]{\begin{tikzpicture}[spy using outlines={circle,magnification=1.9,size=1.85cm,connect spies,red,line width=0.8pt}]\node[inner sep=0,anchor=south west](im){\includegraphics[width=\linewidth,height=3.3cm,keepaspectratio]{FIGURES/LAGRANGIAN/CASE_122_SLAT_FLAP}};\coordinate (pk) at ($0.772*(im.south east)+0.77*(im.north west)$);\coordinate (ln) at ($1.2*(im.south east)+0.5*(im.north west)$);\spy on (pk) in node at (ln);\end{tikzpicture}}\par\vspace{0.03cm}
+    {\color{champsBlue}\bfseries\scriptsize FLAP}
+  \end{column}
+  \begin{column}{0.10\textwidth}\end{column}
+\end{columns}
+\vfill
+\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+SLD models improve the $\beta$ prediction, especially on the slat, but not on the other elements, while reimpingement improves the flap peak.};
+\end{tikzpicture}
+\end{center}
+\SlideRef{laurendeau2022summary}
 \end{frame}
 
 % Add section slides here.

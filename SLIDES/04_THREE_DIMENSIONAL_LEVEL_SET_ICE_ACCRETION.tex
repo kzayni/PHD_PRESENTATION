@@ -1,4 +1,4 @@
-\section[3D LS]{Three-Dimensional Level-Set Ice Accretion}
+\section[LS]{Three-Dimensional Level-Set Ice Accretion}
 
 \input{SLIDES/TRANSITIONS/04_THREE_DIMENSIONAL_LEVEL_SET_ICE_ACCRETION}
 
@@ -45,10 +45,14 @@
 \end{columns}
 \vfill
 \begin{center}
-  \colorbox{champsBlue!8}{\parbox{0.93\textwidth}{\centering\small
-    \vspace{0.11cm}\textbf{Challenge:} Robust geometry evolution
-    without preserving explicit surface-node connectivity.\vspace{0.11cm}}}
+  \begin{tikzpicture}
+  \node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+        text width=0.90\textwidth, inner sep=3pt, align=center, font=\small] {%
+    \textbf{What is needed:} Robust geometry evolution\\
+    without preserving explicit surface-node connectivity.};
+  \end{tikzpicture}
 \end{center}
+\SlideRef{lagNodeDisplacement,thompsonDeformation}
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -64,18 +68,21 @@
     \small
     The evolving ice--air boundary is represented by the
     \textbf{zero contour} of a signed-distance field $\phi$.
-    \vspace{0.20cm}
+    \vspace{0.15cm}
 
+    {\centering
+    \tikz\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=8pt, inner ysep=5pt]
+      {$\Gamma(t)=\{\mathbf x:\phi(\mathbf x,t)=0\}$};\par}
+
+    \vspace{-0.3cm}
     \[
-    \boxed{\Gamma(t)=\{\mathbf x:\phi(\mathbf x,t)=0\}}
+    \phi(\mathbf x,t)\;
+    \begin{cases}
+      <0 & \text{Solid / ice}\\[2pt]
+      =0 & \text{Ice--air interface}\\[2pt]
+      >0 & \text{Air}
+    \end{cases}
     \]
-
-    \vspace{0.14cm}
-    \begin{tabular}{@{}ll@{}}
-      $\phi<0$ & Solid / ice\\[3pt]
-      $\phi=0$ & Ice--air interface\\[3pt]
-      $\phi>0$ & Air
-    \end{tabular}
   \end{column}
   \hfill
   \begin{column}{0.58\textwidth}
@@ -83,33 +90,26 @@
     \includegraphics[width=\linewidth,height=3.68cm,keepaspectratio]{FIGURES/LEVELSET/ICE_AIR_INTERFACE}
   \end{column}
 \end{columns}
-\vspace{0.20cm}
+\vspace{0.05cm}
 \begin{center}
-  {\color{champsBlue}\bfseries Evolve a field rather than moving surface nodes}
-  \vspace{-0.13cm}
-  \[
-    \frac{\partial\phi}{\partial t}+\mathbf V\cdot\nabla\phi=0
-  \]
+  \tikz\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=14pt, inner ysep=5pt, align=center]
+    {{\color{champsBlue}\bfseries Evolve a field rather than moving surface nodes}\\[4pt]
+     $\displaystyle\frac{\partial\phi}{\partial t}+\mathbf V\cdot\nabla\phi=0$};
 \end{center}
+\SlideRef{OSHER198812,OSHER2004,PENA2016278,lavoieLevelSet,alessandroLevelSet}
 \end{frame}
 
 % ---------------------------------------------------------------
 % 3 — NUMERICAL FORMULATION
 % ---------------------------------------------------------------
-\begin{frame}[t]{Level-Set Transport: Numerical Formulation}
+\begin{frame}[t]{Level-Set Advection: Numerical Formulation}
 \vspace{0.10cm}
-\begin{center}
-{\color{champsBlue}\bfseries Divergence form with a velocity-divergence correction}
-\vspace{-0.13cm}
-\[
-\boxed{
-\frac{\partial\phi}{\partial t}
-+\nabla\cdot(\phi\mathbf V)
--\phi\,\nabla\cdot\mathbf V=0
-}
-\]
-\end{center}
-\vspace{-0.35cm}
+{\centering
+\tikz\node[fill=champsBlue!7, rounded corners=4pt, inner xsep=12pt, inner ysep=5pt]
+  {$\displaystyle\frac{\partial\phi}{\partial t}
+   +\nabla\cdot(\phi\mathbf V)
+   -\phi\,\nabla\cdot\mathbf V=0$};\par}
+\vspace{0.15cm}
 \begin{columns}[T,onlytextwidth]
  \begin{column}{0.46\textwidth}
    {\color{champsBlue}\bfseries Ice-Growth Velocity}
@@ -118,26 +118,18 @@
      \mathbf V=\frac{h_{\mathrm{ice}}}{\Delta t_{\mathrm{layer}}}
      \mathbf n_{\phi_0},\qquad
      \mathbf n_{\phi_0}=\frac{\nabla\phi_0}{\lVert\nabla\phi_0\rVert}
-   \]
-   \vspace{0.08cm}
-   \small
-   Ice thickness is extended along the initial
-   level-set normal direction, limiting redistancing needs
-   for small layer displacements.
-   \vspace{0.18cm}
-
-   {\color{champsBlue}\bfseries Temporal Integration}
-   \vspace{0.07cm}
-
-   \small Semi-implicit \textbf{ROS22} (Rosenbrock--Wanner).
+   \]\par
+   \vspace{0.02cm}
+   {\small\noindent Ice thickness is extended along the initial level-set
+   normal direction.\par}
  \end{column}
  \hfill
  \begin{column}{0.50\textwidth}
-   {\color{champsBlue}\bfseries Cell-Centered Finite Volumes}
+   {\color{champsBlue}\bfseries Cell-Centered Finite Volume}
    \vspace{-0.06cm}
    {\small
    \[
-   \frac{\mathrm d\phi_i}{\mathrm dt}+R_i(\phi)=0
+   \frac{\partial\phi_i}{\partial t}+R_i(\phi)=0
    \]
    \vspace{-0.17cm}
    \[
@@ -145,13 +137,26 @@
      (\phi_f-\phi_i)(\mathbf V_f\cdot\mathbf n_f)A_f
    \]
    }
-   \vspace{0.04cm}
-   \small
-   \textbf{Spatial reconstruction:} second-order upwind;
-   weighted least-squares gradients;
-   Venkatakrishnan limiter.
  \end{column}
 \end{columns}
+
+\vspace{0.95cm}
+\begin{columns}[T,onlytextwidth]
+ \begin{column}{0.46\textwidth}
+   {\color{champsBlue}\bfseries Temporal Integration}\par
+   \vspace{0.07cm}
+   {\small\noindent Semi-implicit \textbf{ROS22} (Rosenbrock--Wanner),
+   already used for unsteady flow simulations in CHAMPS.\par}
+ \end{column}
+ \hfill
+ \begin{column}{0.50\textwidth}
+   {\color{champsBlue}\bfseries Spatial Reconstruction}\par
+   \vspace{0.07cm}
+   {\small\noindent \textbf{Second-order upwind}; weighted least-squares
+   gradients; Venkatakrishnan limiter.\par}
+ \end{column}
+\end{columns}
+\SlideRef{FROLKOVIC2015214,hairer1996}
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -162,18 +167,17 @@
 \begin{columns}[T,onlytextwidth]
   \begin{column}{0.32\textwidth}
     \centering
-    {\color{champsBlue}\bfseries Signed-Distance Initialization}
+    {\color{champsBlue}\bfseries Initialization}
     \vspace{0.10cm}
 
-    \includegraphics[width=\linewidth,height=2.28cm,keepaspectratio]{FIGURES/LEVELSET/EIKONAL.png}
-    \vspace{-0.13cm}
-    {\scriptsize
-    \[
+    \parbox[c][3.8cm][c]{\linewidth}{\centering \includegraphics[width=\linewidth,height=3.7cm,keepaspectratio,trim=6 6 6 6,clip]{FIGURES/LEVELSET/EIKONAL.png}}
+    \par\vspace{0.08cm}
+    {\scriptsize\parbox[c][0.9cm][c]{\linewidth}{\centering$\displaystyle
       \frac{\partial\phi}{\partial\tau}+
       \mathbf n_\phi\cdot\nabla\phi=1
-    \]
-    }
-    \raggedright\scriptsize
+    $}\par}
+    \vspace{0.05cm}
+    \centering\scriptsize
     Eikonal pseudo-time transport with $\phi=0$ on the wall.
   \end{column}
   \hfill
@@ -182,15 +186,14 @@
     {\color{champsBlue}\bfseries Ice-Thickness Extension}
     \vspace{0.10cm}
 
-    \includegraphics[width=\linewidth,height=2.28cm,keepaspectratio]{FIGURES/LEVELSET/PROPAGATION.png}
-    \vspace{-0.13cm}
-    {\scriptsize
-    \[
-      \frac{\partial\psi}{\partial\tau}+
-      \mathbf n_\phi\cdot\nabla\psi=0
-    \]
-    }
-    \raggedright\scriptsize
+    \parbox[c][3.8cm][c]{\linewidth}{\centering \includegraphics[width=\linewidth,height=3.7cm,keepaspectratio,trim=6 6 6 6,clip]{FIGURES/LEVELSET/PROPAGATION.png}}
+    \par\vspace{0.08cm}
+    {\scriptsize\parbox[c][0.9cm][c]{\linewidth}{\centering$\displaystyle
+      \frac{\partial\varphi}{\partial\tau}+
+      \mathbf n_\phi\cdot\nabla\varphi=0
+    $}\par}
+    \vspace{0.05cm}
+    \centering\scriptsize
     Propagate surface ice thickness along signed-distance normals.
   \end{column}
   \hfill
@@ -199,37 +202,111 @@
     {\color{champsBlue}\bfseries Geometric Alternative}
     \vspace{0.10cm}
 
-    \FigOrPlaceholder{FIGURES/LEVELSET/AABB_TREE}{width=\linewidth,height=2.28cm,keepaspectratio}{2.0cm}
-    \vspace{-0.13cm}
-    {\scriptsize
-    \[
+    \parbox[c][3.8cm][c]{\linewidth}{\centering \FigOrPlaceholder{FIGURES/LEVELSET/AABB_TREE}{width=\linewidth,height=3.7cm,keepaspectratio}{2.0cm}}
+    \par\vspace{0.08cm}
+    {\scriptsize\parbox[c][0.9cm][c]{\linewidth}{\centering$\displaystyle
       \phi(\mathbf x)=\pm\min_{T\in\Gamma}
       d(\mathbf x,T)
-    \]
-    }
-    \raggedright\scriptsize
-    Nearest-surface projection, accelerated by an AABB tree.
+    $}\par}
+    \vspace{0.05cm}
+    \centering\scriptsize
+    Nearest-surface projection, accelerated by an Axis-Aligned Bounding Box (AABB) tree.
   \end{column}
 \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------
+% Global ice-volume monitoring
+% ---------------------------------------------------------
+\begin{frame}{Global Ice-Volume Monitoring}
+
+\vspace{-0.2cm}
+
+{\small
+The ice volume is evaluated by reconstructing the
+$\phi=0$ interface within each mesh element.
+}
+
+\vspace{0.08cm}
+
+% 2D TRIANGULAR ELEMENTS
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.36\textwidth}
+{\color{champsBlue}\bfseries 2D: Triangular Elements}\par
+\vspace{0.04cm}
+{\small Compute the area enclosed by $\phi<0$ within each triangle.\par}
+\end{column}
+\begin{column}{0.62\textwidth}
+\centering
+\includegraphics[height=1.4cm,trim=149 249 77 249,clip]{FIGURES/LEVELSET/TRI_ONE_NEG.png}\hspace{0.3cm}
+\includegraphics[height=1.4cm,trim=149 249 77 249,clip]{FIGURES/LEVELSET/TRI_TWO_NEG.png}\hspace{0.3cm}
+\includegraphics[height=1.4cm,trim=149 249 77 249,clip]{FIGURES/LEVELSET/TRI_ALL_NEG.png}\par
+{\scriptsize One, two, or three negative vertices\par}
+\end{column}
+\end{columns}
+
+\vspace{0.02cm}
+
+% 3D TETRAHEDRAL ELEMENTS
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.36\textwidth}
+{\color{champsBlue}\bfseries 3D: Tetrahedral Elements}\par
+\vspace{0.04cm}
+{\small Compute the volume enclosed by $\phi<0$ within each tetrahedron.\par}
+\end{column}
+\begin{column}{0.62\textwidth}
+\centering
+\includegraphics[height=1.7cm,trim=293 74 310 143,clip]{FIGURES/LEVELSET/TETRA_ONE_NEG.png}\hspace{0.2cm}
+\includegraphics[height=1.7cm,trim=293 74 310 143,clip]{FIGURES/LEVELSET/TETRA_TWO_NEG.png}\hspace{0.2cm}
+\includegraphics[height=1.7cm,trim=293 74 310 143,clip]{FIGURES/LEVELSET/TETRA_THREE_NEG.png}\hspace{0.2cm}
+\includegraphics[height=1.7cm,trim=293 74 310 143,clip]{FIGURES/LEVELSET/TETRA_ALL_NEG.png}\par
+{\scriptsize One to four negative vertices\par}
+\end{column}
+\end{columns}
+
+\vspace{0.02cm}
+
+{\color{champsBlue}\bfseries
+Global Volume Evaluation}
+
+\par\vspace{0.04cm}
+{\centering
+$\displaystyle V_{\mathrm{ice}}^{\mathrm{LS}}(t)
+=
+\sum_{K\in\mathcal{T}}
+\operatorname{Vol}\left(K\cap\{\phi(t)<0\}\right)
+-
+V_{\mathrm{initial}}$\par}
+\vspace{0.04cm}
+
+{\small
+The reconstructed ice volume is compared with
+the expected volume obtained from the accreted ice mass.
+}
+
 \vfill
-\begin{center}
-\colorbox{champsBlue!8}{\parbox{0.93\textwidth}{\centering\small
-\vspace{0.10cm}
-\textbf{Present framework:} Eikonal initialization and transport-based extension.
-\quad\textbf{Alternative:} geometric closest-point projection with efficient spatial search.
-\vspace{0.10cm}}}
+
+\vspace{-0.2cm}\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+\textbf{Global conservation check:}
+Monitor the discrepancy between the level-set ice\\ volume and the expected accreted volume
+prescribed by the thermodynamic results.};
+\end{tikzpicture}
 \end{center}
+
 \end{frame}
 
 % ---------------------------------------------------------------
 % 5 — MULTILAYER WORKFLOW
 % ---------------------------------------------------------------
-\begin{frame}[t]{CHAMPS -- Multilayer Ice-Accretion Approach}
+\begin{frame}[t]{Multilayer Level-Set Ice-Accretion Pipeline}
 \vspace{0.09cm}
 \begin{columns}[T,onlytextwidth]
  \begin{column}{0.31\textwidth}
   \centering
-  {\color{champsBlue}\bfseries 1. Icing Solution}
+  {\color{champsBlue}\bfseries Icing Solution}
   \vspace{0.10cm}
 
   \includegraphics[width=\linewidth,height=2.40cm,keepaspectratio]{FIGURES/LEVELSET/THERMO_SOLUTION_CROP.png}
@@ -244,7 +321,7 @@
  \hfill
  \begin{column}{0.31\textwidth}
   \centering
-  {\color{champsBlue}\bfseries 2. Level-Set Evolution}
+  {\color{champsBlue}\bfseries Level-Set Evolution}
   \vspace{0.10cm}
 
   \includegraphics[width=\linewidth,height=2.40cm,keepaspectratio]{FIGURES/LEVELSET/LEVEL_SET_MESH_CROP.png}
@@ -254,38 +331,38 @@
   \textbf{Adapted auxiliary volume mesh}
   \vspace{0.07cm}
 
-  $\sim$5--15 million cells; level-set transport $\sim$5 min per layer.
+  $\sim$5--15 million cells, depending on ice-accretion refinement;\\ level-set transport $\sim$5 min per layer.
  \end{column}
  \hfill
  \begin{column}{0.31\textwidth}
   \centering
-  {\color{champsBlue}\bfseries 3. Surface Reconstruction}
+  {\color{champsBlue}\bfseries Surface Reconstruction}
   \vspace{0.10cm}
 
-  \includegraphics[width=\linewidth,height=2.40cm,keepaspectratio]{FIGURES/LEVELSET/LEVEL_SET_SURFACE_EXTRACTION_CROP.png}
+  \includegraphics[width=\linewidth,height=2.40cm,keepaspectratio,trim=225 342 181 365,clip]{FIGURES/LEVELSET/ice_exploded.png}
   \vspace{0.09cm}
 
   \raggedright\scriptsize
   \textbf{MMG zero-isosurface extraction}
   \vspace{0.07cm}
 
-  Surface smoothing and reconstruction; $\sim$20 min (serial bottleneck).
+  Surface smoothing and reconstruction while preserving the clean surface;\\ $\sim$20 min (serial bottleneck).
  \end{column}
 \end{columns}
 \vspace{0.32cm}
 \begin{center}
-\colorbox{champsBlue!8}{\parbox{0.92\textwidth}{\centering
-\vspace{0.12cm}
-{\color{champsBlue}\bfseries 4. Body-Fitted Volume Remeshing}
-\vspace{0.07cm}
-
-\small Automated Pointwise mesh update $\longrightarrow$
- recompute flow and impingement for the \textbf{next ice layer}.
-\vspace{0.11cm}}}
+\begin{tikzpicture}
+\node[fill=champsBlue!7, rounded corners=4pt, text width=0.95\textwidth,
+      inner xsep=0.1cm, inner ysep=0.2cm, align=center] {%
+  {\color{champsBlue}\bfseries Body-Fitted Volume Remeshing}\\[0.1cm]
+  {\small Automated Pointwise mesh update $\longrightarrow$
+   recompute flow and impingement for the \textbf{next ice layer}.}};
+\end{tikzpicture}
 \end{center}
 \vfill
 {\centering\tiny\color{gray}
 Typical reported times vary with mesh size and workstation; 3D level set and extraction run locally.\par}
+\SlideRef{dapogny2014mmg}
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -294,34 +371,39 @@ Typical reported times vary with mesh size and workstation; 3D level set and ext
 \begin{frame}[t]{Three-Horn Benchmark: Geometry Robustness}
 \vspace{0.13cm}
 \begin{columns}[c,onlytextwidth]
- \begin{column}{0.64\textwidth}
+ \begin{column}{0.58\textwidth}
   \centering
   \includegraphics[width=\linewidth,height=5.00cm,keepaspectratio]{FIGURES/LEVELSET/THREE_HORNS.png}
  \end{column}
  \hfill
- \begin{column}{0.33\textwidth}
+ \begin{column}{0.40\textwidth}
+  {\color{champsBlue}\bfseries Geometry}\par\vspace{0.06cm}
+  \includegraphics[width=\linewidth]{FIGURES/LEVELSET/THREE_HORNS_GEOMETRY.png}\par
+  \vspace{0.2cm}
   {\color{champsBlue}\bfseries Manufactured Offset}
   \vspace{0.05cm}
   {\small\[
      h_{\mathrm{ice}}=0.02\,\mathrm m
      \qquad (x<0.05\,\mathrm m)
-  \]}
+  \]\par}
   \vspace{0.13cm}
-  {\color{red!75!black}\bfseries Direct Node Displacement}
+  {\color{red!75!black}\bfseries Lagrangian Node Displacement}\par
   \vspace{0.06cm}
   \small Surface self-intersections and local ice-volume loss.
   \vspace{0.24cm}
 
-  {\color{champsBlue}\bfseries Level-Set Evolution}
+  {\color{champsBlue}\bfseries Level-Set Evolution}\par
   \vspace{0.06cm}
   \small Reconstructs a valid front close to the exact geometric offset (viscosity solution).
  \end{column}
 \end{columns}
 \vfill
 \begin{center}
-\colorbox{champsBlue!8}{\parbox{0.92\textwidth}{\centering\small
-\vspace{0.10cm}Implicit evolution handles concave, merging ice features without explicit surface entanglement.
-\vspace{0.10cm}}}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+Implicit evolution handles concave, merging ice features without explicit surface entanglement.};
+\end{tikzpicture}
 \end{center}
 \end{frame}
 
@@ -330,10 +412,9 @@ Typical reported times vary with mesh size and workstation; 3D level set and ext
 % ---------------------------------------------------------------
 \begin{frame}[t]{IPW1 Case 362: Three-Dimensional Scallop Formation}
 \vspace{0.05cm}
-{\centering\scriptsize
-30$^\circ$ swept NACA 0012 \; $\vert$ \;
-$T_\infty=266$ K \; $\vert$ \; 20 min icing \; $\vert$ \;
-10 accretion layers
+{\centering\scriptsize\color{champsBlue}\bfseries
+30$^\circ$ swept NACA 0012 \quad LWC $=0.5$ g/m$^3$ \quad MVD $=34.7\,\mu$m (Workshop distribution)\\[2pt]
+$T_\infty=266$ K \quad Exposure time $=20$ min \quad $k_s/c=0.001$ \quad 10 accretion layers
 \par}
 \vspace{0.10cm}
 \begin{columns}[c,onlytextwidth]
@@ -346,36 +427,34 @@ $T_\infty=266$ K \; $\vert$ \; 20 min icing \; $\vert$ \;
   \hfill
   \begin{column}{0.55\textwidth}
     \centering
-    \includegraphics[width=\linewidth,height=4.30cm,keepaspectratio]{FIGURES/LEVELSET/LEVEL_SET_SURFACE_EXTRACTION_CROP.png}\par
+    \movie[width=\linewidth,height=0.3948\linewidth,poster,showcontrols,loop,autostart]%
+      {\includegraphics[width=\linewidth,height=0.3948\linewidth]{FIGURES/LEVELSET/CASE_362_ice_layers_poster.png}}%
+      {FIGURES/LEVELSET/CASE_362_ice_layers.mp4}\par
     \vspace{0.04cm}
     {\scriptsize\color{gray}Reconstructed three-dimensional ice geometry.}
   \end{column}
 \end{columns}
 \vfill
 \begin{center}
-\colorbox{champsBlue!8}{\parbox{0.93\textwidth}{\centering\small
-\vspace{0.11cm}Multilayer level-set evolution captures complex
-spanwise ice features while maintaining a conformal extracted surface.
-\vspace{0.11cm}}}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=0.92\textwidth, inner sep=3pt, align=center, font=\small] {%
+Multilayer level-set evolution captures complex
+spanwise ice features while maintaining a conformal extracted surface.};
+\end{tikzpicture}
 \end{center}
+\SlideRef{laurendeau2022summary,broeren2016ice}
 \end{frame}
 
 % ---------------------------------------------------------------
 % 8 — IPW1 CASE 362: CROSS SECTION / EXPERIMENT
 % ---------------------------------------------------------------
 \begin{frame}[t]{IPW1 Case 362: Ice-Shape Comparison}
-\vspace{0.07cm}
-{\centering\scriptsize
-30$^\circ$ swept NACA 0012 \; $\vert$ \;
-LWC = 0.5 g/m$^3$ \; $\vert$ \;
-MVD = 34.7 $\mu$m \; $\vert$ \;
-$k_s/c=0.001$
-\par}
 \vspace{0.14cm}
 \begin{columns}[c,onlytextwidth]
   \begin{column}{0.65\textwidth}
     \centering
-    \includegraphics[width=\linewidth,height=4.82cm,keepaspectratio]{FIGURES/LEVELSET/CASE_IPW1_362_ICE_SHAPE}
+    \includegraphics[width=\linewidth,height=6.4cm,keepaspectratio]{FIGURES/LEVELSET/CASE_IPW1_362_ICE_SHAPE}
   \end{column}
   \hfill
   \begin{column}{0.32\textwidth}
@@ -396,14 +475,215 @@ $k_s/c=0.001$
     {\color{red!70!black}\bfseries Remaining Discrepancies}
     \vspace{0.10cm}
 
-    \small Horn orientation and impingement limits.
+    \small Horn orientation and impingement limits;
+    further investigation needed on roughness height and HTC.
   \end{column}
 \end{columns}
-\vfill
-\begin{center}
-\colorbox{champsBlue!8}{\parbox{0.92\textwidth}{\centering\small
-\vspace{0.10cm}2D MCCS comparisons do not fully reveal the local spanwise variation
-of genuinely three-dimensional ice structures.\vspace{0.10cm}}}
-\end{center}
+\SlideRef{laurendeau2022summary,broeren2016ice}
 \end{frame}
 
+% ---------------------------------------------------------
+% Sensitivity of 3D ice morphology
+% ---------------------------------------------------------
+\begin{frame}{Sensitivity of 3D Ice Morphology}
+
+\vspace{-0.1cm}
+
+\noindent\resizebox{\textwidth}{!}{The predicted 3D ice morphology depends on droplet-size
+representation, accretion-layer count, and mesh resolution.}
+
+\vspace{0.15cm}
+
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.22\textwidth}
+\tikz\node[fill=champsBlue!7, rounded corners=4pt, text width=0.92\linewidth, inner sep=3pt, align=center, font=\scriptsize]
+  {{\color{champsBlue}\bfseries Baseline}\\[1pt] 5 layers $\cdot$ 2 mm mesh\\ 7 bins};
+\end{column}
+\begin{column}{0.76\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=1.32cm,keepaspectratio]{FIGURES/LEVELSET/ICE_DIST_05LAYERS_2MM.png}
+\end{column}
+\end{columns}
+\vspace{0.08cm}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.22\textwidth}
+\tikz\node[fill=champsBlue!7, rounded corners=4pt, text width=0.92\linewidth, inner sep=3pt, align=center, font=\scriptsize]
+  {{\color{champsBlue}\bfseries Distribution}\\[1pt] 5 layers $\cdot$ 2 mm mesh\\ 1 bin};
+\end{column}
+\begin{column}{0.76\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=1.32cm,keepaspectratio]{FIGURES/LEVELSET/ICE_MVD_05LAYERS_2MM.png}
+\end{column}
+\end{columns}
+\vspace{0.08cm}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.22\textwidth}
+\tikz\node[fill=champsBlue!7, rounded corners=4pt, text width=0.92\linewidth, inner sep=3pt, align=center, font=\scriptsize]
+  {{\color{champsBlue}\bfseries Layer Count}\\[1pt] 10 layers $\cdot$ 2 mm mesh\\ 7 bins};
+\end{column}
+\begin{column}{0.76\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=1.32cm,keepaspectratio]{FIGURES/LEVELSET/ICE_DIST_10LAYERS_2MM.png}
+\end{column}
+\end{columns}
+\vspace{0.08cm}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.22\textwidth}
+\tikz\node[fill=champsBlue!7, rounded corners=4pt, text width=0.92\linewidth, inner sep=3pt, align=center, font=\scriptsize]
+  {{\color{champsBlue}\bfseries Mesh Resolution}\\[1pt] 10 layers $\cdot$ 4 mm mesh\\ 7 bins};
+\end{column}
+\begin{column}{0.76\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=1.32cm,keepaspectratio]{FIGURES/LEVELSET/ICE_DIST_10LAYERS_4MM.png}
+\end{column}
+\end{columns}
+
+\vfill
+
+\vspace{-0.15cm}\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=\textwidth-0.2cm, inner sep=3pt, align=center, font=\small] {%
+\textbf{Physical inputs and numerical resolution strongly
+influence the predicted 3D ice morphology.}};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+% ---------------------------------------------------------
+% Ice-accretion results -- workshop cases
+% ---------------------------------------------------------
+\begin{frame}[t]{Ice-Accretion Results -- Workshop Cases}
+
+\scriptsize
+\vspace{-0.15cm}
+\begin{columns}[T,onlytextwidth]
+
+% IPW1
+\begin{column}{0.31\textwidth}
+\centering
+{\color{champsBlue}\large\bfseries IPW1}
+
+\vspace{0.02cm}
+
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_361_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 30\textdegree{} NACA0012 -- 361}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_362_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 30\textdegree{} NACA0012 -- 362}
+\end{minipage}
+
+\vspace{0.04cm}
+
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_363_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 30\textdegree{} NACA0012 -- 363}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_364_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 30\textdegree{} NACA0012 -- 364}
+\end{minipage}
+
+\vspace{0.04cm}
+
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_371_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 45\textdegree{} NACA0012 -- 371}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\linewidth}
+\centering
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_372_IPW1_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny 45\textdegree{} NACA0012 -- 372}
+\end{minipage}
+\end{column}
+
+\begin{column}{0.01\textwidth}
+\centering
+{\color{champsBlue!25}\rule{0.4pt}{4.8cm}}
+\end{column}
+
+% IPW2
+\begin{column}{0.31\textwidth}
+\centering
+{\color{champsBlue}\large\bfseries IPW2}
+
+\vspace{0.02cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_1p1_IPW2_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny CRM65 Midspan -- 1.1}
+
+\vspace{0.04cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_1p2_IPW2_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny CRM65 Midspan -- 1.2}
+
+\vspace{0.04cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_1p3_IPW2_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny CRM65 Midspan -- 1.3}
+\end{column}
+
+\begin{column}{0.01\textwidth}
+\centering
+{\color{champsBlue!25}\rule{0.4pt}{4.8cm}}
+\end{column}
+
+% IPW3
+\begin{column}{0.31\textwidth}
+\centering
+{\color{champsBlue}\large\bfseries IPW3}
+
+\vspace{0.02cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_NACA0012_3932_IPW3_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny NACA 0012 -- AE3932}
+
+\vspace{0.04cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_NACA0012_3933_IPW3_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny NACA 0012 -- AE3933}
+
+\vspace{0.04cm}
+
+\FigOrPlaceholder{FIGURES/LEVELSET/CASE_ONERAM6_IPW3_preview}{width=\linewidth,height=1.3cm,keepaspectratio}{1.2cm}
+
+{\tiny ONERA M6}
+\end{column}
+
+\end{columns}
+
+\vfill
+
+\begin{center}
+\begin{tikzpicture}
+\node[fill=champsBlue!5, draw=champsBlue!18, rounded corners=4pt,
+      text width=\textwidth-0.2cm, inner sep=3pt, align=center, font=\small] {%
+More recently, the framework was applied to a broader range of 3D benchmarks,
+yielding \textbf{good agreement with experimental ice shapes}.\\[1pt]
+{\scriptsize 5 ice-accretion layers \;$\vert$\; workshop-prescribed droplet-size distributions}};
+\end{tikzpicture}
+\end{center}
+
+\SlideRef{laurendeau2022summary,laurendeau2024summary}
+\end{frame}

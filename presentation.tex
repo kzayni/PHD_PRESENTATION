@@ -57,7 +57,7 @@ menuwidth={0.35\paperwidth}
 \usepackage{multimedia}
 \usepackage{media9}
 \usepackage{animate}
-\usetikzlibrary{arrows.meta, positioning, fit}
+\usetikzlibrary{arrows.meta, positioning, fit, spy}
 
 \usepackage[bottom]{footmisc}
 
@@ -135,7 +135,7 @@ arc = 0mm
     anchor=north west
 ] at (0,0) {%
     \if\relax\detokenize{#1}\relax\else{\color{champsBlue}\bfseries\large #1}\par\vspace{0.05cm}\fi
-    {\color{champsBlue}\bfseries #2}\par
+    {\color{champsBlue}\bfseries\fontsize{11.6pt}{13pt}\selectfont #2}\par
     \vspace{0.17cm}
     {\small\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000 #3\par}
 };
@@ -144,7 +144,7 @@ arc = 0mm
 % Step text block: full colour from its step onwards, faded before.
 % #1 = title, #2 = description
 \newcommand{\IcingText}[2]{%
-\uncover<+->{%
+\uncover<+>{%
 \parbox{\linewidth}{%
 {\color{champsBlue}\bfseries #1}\par
 \vspace{0.02cm}
@@ -159,6 +159,12 @@ arc = 0mm
 }
 % Figure that falls back to a placeholder until the file exists.
 % #1 = path without extension, #2 = includegraphics options, #3 = placeholder height
+% Small grey citation marker at the bottom-left of a slide
+\newcommand{\SlideRef}[1]{%
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=south west,font=\tiny,text=gray,inner sep=0pt]
+      at ([xshift=0.1cm,yshift=0.27cm]current page.south west) {\cite{#1}};
+\end{tikzpicture}}
 \newcommand{\FigOrPlaceholder}[3]{%
 \IfFileExists{#1.pdf}{\includegraphics[#2]{#1.pdf}}{%
 \IfFileExists{#1.eps}{\includegraphics[#2]{#1.eps}}{%
@@ -205,7 +211,7 @@ arc = 0mm
 \end{columns}
 \end{frame}
 
-\begin{frame}{\small \textbf{Table of Contents}}
+\begin{frame}{Table of Contents}
 \Large
 \tableofcontents
 \end{frame}
@@ -220,8 +226,9 @@ arc = 0mm
 \input{SLIDES/07_ACKNOWLEDGEMENTS}
 
 \nocite{clift2005bubbles,OSHER2004,FROLKOVIC2015214,lavoieLevelSet,alessandroLevelSet,dapogny2014mmg}
-\begin{frame}[allowframebreaks]{\small References}
-\scriptsize
+\setbeamertemplate{frametitle continuation}{}
+\begin{frame}[allowframebreaks]{References}
+\footnotesize
 \bibliography{references}
 \end{frame}
 
